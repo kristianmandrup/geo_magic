@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geo_magic}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -30,15 +30,18 @@ Gem::Specification.new do |s|
     "lib/geo_magic/calculate.rb",
     "lib/geo_magic/distance.rb",
     "lib/geo_magic/location.rb",
+    "lib/geo_magic/map_point.rb",
     "lib/geo_magic/meta.rb",
     "lib/geo_magic/point.rb",
+    "lib/geo_magic/radius.rb",
     "lib/geo_magic/remote.rb",
     "lib/geo_magic/util.rb",
-    "spec/geo_magic_calculate_spec.rb",
-    "spec/geo_magic_include_calc_spec.rb",
-    "spec/geo_magic_include_remote_spec.rb",
-    "spec/geo_magic_plane_dist_spec.rb",
-    "spec/geo_magic_remote_spec.rb",
+    "spec/geo_magic/calculate_spec.rb",
+    "spec/geo_magic/include_calc_spec.rb",
+    "spec/geo_magic/include_remote_spec.rb",
+    "spec/geo_magic/plane_dist_spec.rb",
+    "spec/geo_magic/remote_spec.rb",
+    "spec/geo_magic/select_nearest_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/kristianmandrup/geo_magic}
@@ -47,11 +50,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Get your IP and location data and calculate distances on the globe}
   s.test_files = [
-    "spec/geo_magic_calculate_spec.rb",
-    "spec/geo_magic_include_calc_spec.rb",
-    "spec/geo_magic_include_remote_spec.rb",
-    "spec/geo_magic_plane_dist_spec.rb",
-    "spec/geo_magic_remote_spec.rb",
+    "spec/geo_magic/calculate_spec.rb",
+    "spec/geo_magic/include_calc_spec.rb",
+    "spec/geo_magic/include_remote_spec.rb",
+    "spec/geo_magic/plane_dist_spec.rb",
+    "spec/geo_magic/remote_spec.rb",
+    "spec/geo_magic/select_nearest_spec.rb",
     "spec/spec_helper.rb"
   ]
 
