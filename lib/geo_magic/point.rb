@@ -1,12 +1,12 @@
+require 'geo_magic/map_point'
+
 module GeoMagic
-  class Point #:nodoc:
-    attr_accessor :latitude, :longitude
+  class Point < MapPoint
     
     def initialize latitude, longitude
-      @latitude = latitude
-      @longitude = longitude
+      super
     end
-    
+        
     def to_hash mode= :long
       case mode
       when :short
@@ -15,9 +15,12 @@ module GeoMagic
         {:latitude => latitude, :longitude => longitude}        
       end
     end 
+
+    def to_location      
+    end
     
     def to_s   
-      "(lat: #{latitude}, long: #{longitude})"
+      "(lat: #{latitude}, long: #{longitude}, dist: #{dist})"
     end
   end
 end

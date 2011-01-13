@@ -1,7 +1,9 @@
+require 'geo_magic/map_point'
+
 module GeoMagic
-  class Location #:nodoc:
-    attr_accessor :latitude, :longitude, :ip
-    attr_writer :city, :region, :country
+  class Location < MapPoint
+    attr_accessor :ip
+    attr_writer   :city, :region, :country
     
     def initialize raw_location
       raw_location.each_pair do |key, value|
@@ -13,7 +15,7 @@ module GeoMagic
     def [] key
       send key
     end
-
+    
     class City
       attr_accessor :name, :metrocode, :zipcode
       
