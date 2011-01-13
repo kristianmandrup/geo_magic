@@ -1,6 +1,71 @@
 = geo_magic
 
-Description goes here.
+* Get IP and location data using freegeoip.net 
+* Calculate of distance between map points using haversine (supports multiple distance units)
+
+You can either include the complete library like this:
+
+require 'geo_magic'
+
+Or require only the functionality you need (see usgae examples below)
+
+== IP and location data
+
+Uses freegeoip.net JSON API
+
+RSpec 2 examples of API usage  
+
+require 'geo_magic/remote'
+
+it "should get the remote IP address" do
+  ip = GeoMagic::Remote.my_ip    
+  puts "ip: #{ip.inspect}"    
+end
+
+it "should get other location" do
+  location = GeoMagic::Remote.location_of '74.200.247.59'
+  puts "location: #{location['city']}"    
+end
+
+it "should get my location" do
+  location = GeoMagic::Remote.my_location
+  puts location
+  puts "location: #{location['city']}"    
+end
+
+
+== Distance calculation
+
+Uses haversine formula
+
+RSpec 2 examples of API usage 
+
+require 'geo_magic/calculate'
+
+it "calculates distance using array args" do
+  dist = GeoMagic::Calculate.distance [@long1, @lat1], [@long2, @lat2]    
+  puts dist    
+end
+
+it "calculates distance using Point args" do
+  from_point = GeoMagic::Point.new @long1, @lat1    
+  to_point = GeoMagic::Point.new @long2, @lat2
+  
+  puts "from: #{from_point}, to: #{to_point}"
+  
+  dist = GeoMagic::Calculate.distance from_point, to_point
+  puts dist    
+end
+
+it "calculates distance using Hash args (short)" do
+  from_point = GeoMagic::Point.new(@long1, @lat1).to_hash :short
+  to_point = GeoMagic::Point.new(@long2, @lat2).to_hash :short
+  
+  puts "from: #{from_point}, to: #{to_point}"
+  
+  dist = GeoMagic::Calculate.distance from_point, to_point
+  puts dist    
+end
 
 == Contributing to geo_magic
  
