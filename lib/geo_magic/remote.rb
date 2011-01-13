@@ -1,4 +1,6 @@
 require 'httparty'
+require 'geo_magic/point'
+require 'geo_magic/location'
 
 module GeoMagic
   module Remote #:nodoc:
@@ -22,14 +24,18 @@ module GeoMagic
         response.parsed_response['ip']
       end      
 
-      def my_location
-        response = HTTParty.get('http://freegeoip.net/json/')
-        response.parsed_response
+      def my_location mode = :location
+        create_location HTTParty.get('http://freegeoip.net/json/')
       end      
 
       def location_of ip
-        response = HTTParty.get("http://freegeoip.net/json/#{ip}")
-        response.parsed_response
+        create_location HTTParty.get("http://freegeoip.net/json/#{ip}")
+      end
+      
+      protected
+      
+      def create_location response
+        GeoMagic::Location.new response.parsed_response        
       end
     end
     

@@ -19,12 +19,13 @@ describe "GeoMagic Remote" do
   it "should get other location" do
     location = Finder.location_of '74.200.247.59'
     puts "location: #{location['city']}"    
+    puts "location: #{location[:city]}"    
   end
 
   it "should get my location" do
     location = Finder.my_location
     puts location
-    puts "location: #{location['city']}"    
+    puts "location: #{location.city}"    
   end
 
 end

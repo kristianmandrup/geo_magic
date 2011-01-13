@@ -3,8 +3,8 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 
-gem 'haversine'
-gem 'httparty'
+gem 'geo-distance', '>= 0.1.0'
+gem 'httparty',     '>= 0.6.0'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.

@@ -1,6 +1,7 @@
-require 'haversine'
+require 'geo-distance'
 require 'geo_magic/point'
 require 'geo_magic/util'
+require 'geo_magic/location'
 
 module GeoMagic
   module Calculate #:nodoc:
@@ -10,13 +11,23 @@ module GeoMagic
 
     module ClassMethods
       def distance from_point, to_point, options = { :unit => :meters }
-        points = [extract_point(from_point), extract_point(to_point)].flatten
-        dist = Haversine.distance( *points )[options[:unit]]
+        points = extract_points from_point, to_point
+        puts "points: #{points.inspect}"
+        dist = ::GeoDistance.distance( *points )[options[:unit]]
         puts "the distance from  (#{points[0]}, #{points[1]}) to (#{points[2]}, #{points[3]}) is: #{dist}"
         dist.number
       end    
+
+      def plane_distance from_point, to_point, options = { :unit => :meters }
+        points = extract_points from_point, to_point
+        Math.sqrt((points[0] - points[2] + points[1] - points[3]).abs)
+      end
     
       protected   
+      
+      def extract_points from_point, to_point
+        [extract_point(from_point), extract_point(to_point)].flatten.map(&:to_f)
+      end
     
       def extract_point point
         GeoMagic::Util.extract_point point
