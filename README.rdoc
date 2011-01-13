@@ -1,4 +1,9 @@
-= geo_magic
+= Geo Magic
+
+This little clever project was the result of me not being satisfied with existing Geo Location and Coding solutions out there to suit my needs.
+Many of the projects did not return quality data (fx when requesting IP or location) and others were tightly bound to Active Record and SQL databases for calculations etc.
+
+This little gem should get you going...
 
 * Get IP and location data using freegeoip.net 
 * Calculate of distance between map points using haversine (supports multiple distance units)
@@ -7,7 +12,7 @@ You can either include the complete library like this:
 
 require 'geo_magic'
 
-Or require only the functionality you need (see usgae examples below)
+Or require only the functionality you need (see usage examples below)
 
 == IP and location data
 
@@ -66,6 +71,29 @@ it "calculates distance using Hash args (short)" do
   dist = GeoMagic::Calculate.distance from_point, to_point
   puts dist    
 end
+
+== Meta magic
+
+You can also include the functionality directly into any class like this
+
+class Map
+  include GeoMagic::Calculate
+end
+
+class MapCalc
+  geo_magic :calc
+end
+
+it "calculates distance using array args" do
+  dist = Map.distance [@long1, @lat1], [@long2, @lat2]    
+  puts dist    
+end
+
+it "calculates distance using array args" do
+  dist = MapCalc.distance [@long1, @lat1], [@long2, @lat2]    
+  puts dist    
+end
+
 
 == Contributing to geo_magic
  

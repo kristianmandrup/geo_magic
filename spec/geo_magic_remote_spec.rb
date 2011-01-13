@@ -2,8 +2,6 @@ require 'spec_helper'
 require 'geo_magic'
 require 'geo_magic/remote'
 
-# 93.233.100.83
-
 describe "GeoMagic Remote" do
   it "should get the remote IP address" do
     ip = GeoMagic::Remote.my_ip    
