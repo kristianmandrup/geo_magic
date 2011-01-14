@@ -1,4 +1,4 @@
-= Geo Magic
+h1. Geo Magic
 
 This little clever project was the result of me not being satisfied with existing Geo Location and Coding solutions out there to suit my needs.
 Many of the projects did not return quality data (fx when requesting IP or location) and others were tightly bound to Active Record and SQL databases for calculations etc.
@@ -10,17 +10,18 @@ This little gem should get you going...
 
 You can either include the complete library like this:
 
-require 'geo_magic'
+<pre>require 'geo_magic'</pre>
+
 
 Or require only the functionality you need (see usage examples below)
 
-== IP and location data
+h2. IP and location data
 
-Uses freegeoip.net JSON API
+Uses "freegeoip.net":http://freegeoip.net JSON API
 
 RSpec 2 examples of API usage  
 
-require 'geo_magic/remote'
+<pre>require 'geo_magic/remote'
 
 it "should get the remote IP address" do
   ip = GeoMagic::Remote.my_ip    
@@ -36,16 +37,15 @@ it "should get my location" do
   location = GeoMagic::Remote.my_location
   puts location
   puts "location: #{location['city']}"    
-end
+end  
+</pre>
 
 
-== Distance calculation
-
-Uses haversine formula
+h2. Distance calculation
 
 RSpec 2 examples of API usage 
 
-require 'geo_magic/calculate'
+<pre>require 'geo_magic/calculate'
 
 it "calculates distance using array args" do
   dist = GeoMagic::Calculate.distance [@long1, @lat1], [@long2, @lat2]    
@@ -55,9 +55,9 @@ end
 it "calculates distance using Point args" do
   from_point = GeoMagic::Point.new @long1, @lat1    
   to_point = GeoMagic::Point.new @long2, @lat2
-  
+
   puts "from: #{from_point}, to: #{to_point}"
-  
+
   dist = GeoMagic::Calculate.distance from_point, to_point
   puts dist    
 end
@@ -65,17 +65,19 @@ end
 it "calculates distance using Hash args (short)" do
   from_point = GeoMagic::Point.new(@long1, @lat1).to_hash :short
   to_point = GeoMagic::Point.new(@long2, @lat2).to_hash :short
-  
+
   puts "from: #{from_point}, to: #{to_point}"
-  
+
   dist = GeoMagic::Calculate.distance from_point, to_point
   puts dist    
-end
+end  
+</pre>
 
-== Meta magic
+h2. Meta magic
 
 You can also include the functionality directly into any class like this
 
+<pre>
 class Map
   include GeoMagic::Calculate
 end
@@ -92,10 +94,10 @@ end
 it "calculates distance using array args" do
   dist = MapCalc.distance [@long1, @lat1], [@long2, @lat2]    
   puts dist    
-end
+end  
+</pre>
 
-
-== Contributing to geo_magic
+h2. Contributing to geo_magic
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
@@ -105,7 +107,7 @@ end
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+h2. Copyright
 
 Copyright (c) 2011 Kristian Mandrup. See LICENSE.txt for
 further details.
