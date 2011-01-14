@@ -36,7 +36,7 @@ module GeoMagic
     end  
 
     def get_random_radiant range
-      class.self.get_random_radiant range
+      self.class.get_random_radiant range
     end
 
     def self.get_random_radiant range
