@@ -5,12 +5,18 @@ module GeoMagic
     attr_accessor :ip
     attr_writer   :city, :region, :country
     
-    def initialize raw_location
+    def create_from_raw raw_location
       raw_location.each_pair do |key, value|
         @city_name = value and next if key == 'city'
         send :"#{key}=", value
       end
     end
+
+    # TODO
+    def initialize arg
+      create_from_raw arg
+    end
+
 
     def [] key
       send key
