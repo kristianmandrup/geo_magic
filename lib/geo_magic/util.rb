@@ -1,3 +1,5 @@
+require 'geo_magic/rectangle'
+
 module GeoMagic
   module Util #:nodoc:
     def self.extract_point point
@@ -37,9 +39,9 @@ module GeoMagic
       {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}                     
     end    
     
-    def get_within dist_obj, options = {:precision => :lowest}      
+    def get_within dist_obj, options = {:precision => :lowest}
       calc_method = get_proc(options[:precision] || :normal)
-      from_loc = get_location options[:from]      
+      from_loc = get_location get_dist_obj(options[:from])
 
       dist = dist_obj.distance  / (RAD_PER_DEG * rad[dist_obj.unit])
 
@@ -54,6 +56,12 @@ module GeoMagic
         end
       end
       res
+    end
+
+    def get_within_rect rectangle
+      self.select do |point|
+        rectangle.overlaps? point
+      end
     end
 
     def get_closest number, options = {}

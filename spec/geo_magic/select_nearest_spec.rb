@@ -60,8 +60,10 @@ describe "GeoMagic closest" do
   it "should select all points within 4 km" do
     points = @radius.create_points_in_square 4  
     persons = Person.random_at points
+
+    center_person = Person.new 'Man in the center', @center_point
     
-    closest = persons.as_map_points.get_within 5.km, :from => @center_point
-    puts "Persons within 4 km: #{closest.inspect}"        
+    people_within = persons.as_map_points.get_within 5.km, :from => center_person
+    puts "Persons within 4 km of Man in the center: #{people_within.inspect}"        
   end
 end
