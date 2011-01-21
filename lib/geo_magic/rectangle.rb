@@ -7,7 +7,7 @@ module GeoMagic
       @bottom_right_point = GeoMagic::Point.new right_lat(point_a, point_b), top_long(point_a, point_b)
     end
 
-    def create_from_coords lat1, long1, lat2, long2
+    def self.create_from_coords lat1, long1, lat2, long2
       self.new GeoMagic::Point.new(lat1, long1), GeoMagic::Point.new(lat2, long2)
     end 
     
