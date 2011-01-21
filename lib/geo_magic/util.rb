@@ -20,8 +20,8 @@ module GeoMagic
 end
 
 class Array
-  def as_locations
-    self.extend GeoMagic::LocationsList
+  def as_map_points
+    self.extend GeoMagic::MapPoints
   end
   
   def sort_by_distance
@@ -30,7 +30,7 @@ class Array
 end
 
 module GeoMagic
-  module LocationsList          
+  module MapPoints          
     RAD_PER_DEG = 0.017453293    
     
     def rad

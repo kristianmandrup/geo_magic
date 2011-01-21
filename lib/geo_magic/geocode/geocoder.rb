@@ -1,24 +1,37 @@
+require 'geo_magic/geocode/config'
+require 'active_support/inflector'
+require 'geocode'
+require 'graticule'
+
 module GeoMap 
   class GeoAdapter
+    attr_accessor :service_name, :environment
+    
     def initialize service_name = :google, env = :default
       setup(env)
+      @service_name = service_name
+      @environment = env
     end
 
     def setup env
       case env
       when :rails
         require 'rails/config'
-        self.send(:include, RailsServiceAdapter)
+        self.class.send(:include, RailsServiceAdapter)
       else
-        self.send(:include, ServiceAdapter)
+        self.class.send(:include, ServiceAdapter)
       end
     end
   end
   
   class GraticuleAdapter < GeoAdapter
     def initialize service_name = :google, env = :default
-      super
-      @geo_coder ||= Graticule.service(service_name).new google_key
+      super      
+    end
+
+    def instance
+      @geo_coder ||= ::Graticule.service(service_name).new google_key
+      self
     end
     
     def geocode location_str
@@ -26,10 +39,14 @@ module GeoMap
     end    
   end
 
-  class GeocodeAdapter
+  class GeocodeAdapter < GeoAdapter
     def initialize service_name = :google, env = :default
-      super
-      @geo_coder ||= Geocode.new_geocoder service_name, {:google_api_key => google_key}
+      super      
+    end
+
+    def instance
+      @geo_coder ||= ::Geocode.new_geocoder service_name, {:google_api_key => google_key}      
+      self
     end
     
     def geocode location_str
@@ -104,8 +121,11 @@ module GeoMap
 
 
   class << self    
-    def geo_coder type = :geocode, service_name = :google
-      "GeoMap::#{type.to_s.classify}Adapter".constantize.new service_name
+    def geo_coder options = {:type => :geocode, :service_name => :google}
+      service_name = options[:service_name] || :google
+      type  = options[:type] || :geocode
+      env   = options[:env]
+      "GeoMap::#{type.to_s.classify}Adapter".constantize.new service_name, env
     end 
   
     def geocode location_str

@@ -16,7 +16,8 @@ module GeoMagic
       end
     end 
 
-    def to_location      
+    def to_location
+      raise "TODO: Use geocoder!"
     end
     
     def to_s   

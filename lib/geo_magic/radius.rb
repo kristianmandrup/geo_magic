@@ -36,7 +36,7 @@ module GeoMagic
     def create_points_in_circle number
       conversion = GeoDistance.radians_ratio(distance.unit)
 
-      max_radius_rad = dist.distance
+      max_radius_rad = distance.distance
       range = normalize max_radius_rad
 
       max_radius_rad = distance.distance

@@ -9,21 +9,21 @@ describe "GeoMagic closest" do
 
     @center_point = GeoMagic::Point.new @long1, @lat1    
     @radius = @center_point.within(10.km)
-    @points = @radius.create_points 10
+    @points = @radius.create_points_in_circle 10
   end
     
 
   it "should select the closest 3 points" do
     # puts "radius: #{@radius.inspect}"    
     # puts "points: #{@points.inspect}"        
-    closest = @points.as_locations.get_closest 3, :from => @center_point    
+    closest = @points.as_map_points.get_closest 3, :from => @center_point    
     puts "3 closest points: #{closest.inspect}"        
   end
   
   it "should select all points within 4 km" do
     # puts "radius: #{@radius.inspect}"    
     # puts "points: #{@points.inspect}"        
-    closest = @points.as_locations.get_within 4.km, :from => @center_point    
+    closest = @points.as_map_points.get_within 4.km, :from => @center_point    
     puts "points within 4 km: #{closest.inspect}"        
   end
   

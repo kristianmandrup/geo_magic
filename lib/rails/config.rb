@@ -1,5 +1,5 @@
 module GeoMap
-  class RailsServiceAdapter
+  module RailsServiceAdapter
     attr_reader :geo_coder
 
     def geocode location_str
@@ -13,11 +13,11 @@ module GeoMap
     protected
     
     def env 
-      ENV['HEROKU_SITE'] || Rails.env.downcase || 'development'
+      ENV['HEROKU_SITE'] || ::Rails.env.downcase || 'development'
     end
   
     def config
-      @config ||= YAML.load_file("#{Rails.root}/config/google_map.yml")[env]
+      @config ||= ::YAML.load_file("#{::Rails.root}/config/google_map.yml")[env]
     end
 
     def google_key

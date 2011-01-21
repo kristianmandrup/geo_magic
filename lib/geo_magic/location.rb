@@ -17,7 +17,6 @@ module GeoMagic
       create_from_raw arg
     end
 
-
     def [] key
       send key
     end
