@@ -12,6 +12,11 @@ describe "GeoMagic Geocoder" do
     location.city.should == 'Munich'
   end
 
+  it "should find location" do
+    location = @geocoder.instance.geocode "Marienplatz 14, munich, Germany"
+    p location.latitude
+    p location.longitude
+  end        
 
   # it "should geocode for rails" do        
   #   @geocoder = GeoMap.geo_coder :env => :rails    

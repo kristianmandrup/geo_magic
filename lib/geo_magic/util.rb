@@ -60,7 +60,22 @@ module GeoMagic
 
     def within_rectangle rectangle
       self.select do |point|
-        rectangle.overlaps? get_dist_obj(point)
+        puts "point: #{point.inspect}"
+
+        if point.respond_to? :person
+          puts "indiv adr: #{point.person.address}" 
+          puts "adr loc: #{point.person.address.location}"
+          puts "loc: #{point.location}" 
+        end                                    
+        if point.respond_to? :company
+          puts "company adr: #{point.company.address}" 
+          puts "adr loc: #{point.company.address.location}"
+          puts "loc: #{point.location}"
+        end
+
+        obj = get_dist_obj(point)
+        puts "dist obj: #{obj.inspect}"
+        rectangle.overlaps? obj
       end
     end
 
