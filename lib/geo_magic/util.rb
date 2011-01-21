@@ -60,7 +60,7 @@ module GeoMagic
 
     def within_rectangle rectangle
       self.select do |point|
-        rectangle.overlaps? point
+        rectangle.overlaps? get_dist_obj(point)
       end
     end
 

@@ -75,6 +75,20 @@ describe "GeoMagic closest" do
     center_person = Person.new 'Man in the center', @center_point
     
     people_within = persons.as_map_points.within_distance 5.km, :from => center_person
-    puts "Persons within 4 km of Man in the center: #{people_within.inspect}"        
+    puts "People within 4 km of Man in the center: #{people_within.inspect}"        
+  end     
+  
+  it "should select all people in rectangle" do
+
+    points = @radius.create_points_in_square 4  
+    persons = Person.random_at points
+
+    center_person = Person.new 'Man in the center', @center_point
+    
+    rectangle = GeoMagic::Rectangle.create_from_coords -115, 50, -100, 20
+    
+    people_in_rectangle = persons.as_map_points.within_rectangle rectangle
+    puts "People in the rectangular area: #{people_in_rectangle.inspect}"        
   end
+  
 end
