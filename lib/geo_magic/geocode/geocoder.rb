@@ -80,11 +80,11 @@ module GeoMap
       end
 
       def latitude
-        coords[0]
+        coords[1]
       end
 
       def longitude
-        coords[1]
+        coords[0]
       end
     
       protected
