@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geo_magic}
-  s.version = "0.2.1"
+  s.version = "0.2.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
     "lib/geo_magic/meta.rb",
     "lib/geo_magic/point.rb",
     "lib/geo_magic/radius.rb",
+    "lib/geo_magic/rectangle.rb",
     "lib/geo_magic/remote.rb",
     "lib/geo_magic/util.rb",
     "lib/rails/config.rb",
@@ -47,6 +48,7 @@ Gem::Specification.new do |s|
     "spec/geo_magic/plane_dist_spec.rb",
     "spec/geo_magic/remote_spec.rb",
     "spec/geo_magic/select_nearest_spec.rb",
+    "spec/geo_magic/within_rect_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/kristianmandrup/geo_magic}
@@ -62,6 +64,7 @@ Gem::Specification.new do |s|
     "spec/geo_magic/plane_dist_spec.rb",
     "spec/geo_magic/remote_spec.rb",
     "spec/geo_magic/select_nearest_spec.rb",
+    "spec/geo_magic/within_rect_spec.rb",
     "spec/spec_helper.rb"
   ]
 
