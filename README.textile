@@ -79,6 +79,10 @@ Lots of extra features has been added recently. For now, please check out the sp
 Most recently I have added support to filter a list of points for those who are within a radius of another point (see _select_neares_spec.rb_).
 I have also just created a Geocode adapter for _Geocode_ and _Graticule_ (see: _geocoder_spec.rb_) - This can also easily be configured for Rails.
 
+h3. Create random points in Radius
+
+@create_points_in_square@ works, but @create_points_in_circle@ is currently broken. Please help fix this ASAP ;) Thanks!
+
 h2. Meta magic
 
 You can also include the functionality directly into any class like this

@@ -25,7 +25,7 @@ class Array
   end
   
   def sort_by_distance
-    self.sort_by { |item| item.dist }
+    self.sort_by { |item| get_dist_obj(item).dist }
   end  
 end
 
@@ -37,7 +37,7 @@ module GeoMagic
       {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}                     
     end    
     
-    def get_within dist_obj, options = {:precision => :lowest}
+    def get_within dist_obj, options = {:precision => :lowest}      
       calc_method = get_proc(options[:precision] || :normal)
       from_loc = get_location options[:from]      
 
@@ -46,7 +46,8 @@ module GeoMagic
       res = []
       spots = populate_distance(calc_method, from_loc)
       spots.sort_by_distance.select do |item|
-        if item.dist <= dist
+        it = get_dist_obj(item)
+        if it.dist <= dist
           res << item 
         else 
           break 
@@ -63,10 +64,19 @@ module GeoMagic
 
     protected
 
+    def get_dist_obj dist_obj
+      return dist_obj if dist_obj.respond_to? :dist
+      [:point, :to_point, :location].each do |loc|        
+        return dist_obj.send(loc) if dist_obj.respond_to? loc
+      end
+      raise "Invalid Point object: a valid Point object must either be a sublclass of MapPoint or have a #point #to_point or #location method that returns a MapPoint from which can be calculated a distance"
+    end
+
     def populate_distance calc_method, from_loc
       self.map! do |item|
-        dist_obj = calc_method.call(from_loc, item)
-        item.dist = dist_obj.distance
+        dist_item = get_dist_obj(item)
+        dist_obj = calc_method.call(from_loc, dist_item)
+        dist_item.dist = dist_obj.distance
         item
       end      
     end
