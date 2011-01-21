@@ -37,25 +37,36 @@ describe "GeoMagic closest" do
     @long1 = -104.88544
     @lat1 = 39.06546
 
-    @center_point = GeoMagic::Point.new @long1, @lat1    
+    @center_point = GeoMagic::Point.new @long1, @lat1
     @radius = @center_point.within(10.km)
     @points = @radius.create_points_in_square 10
+    
+    @circle_points = @radius.create_points_in_square 4
   end
     
 
-  # it "should select the closest 3 points" do
-  #   # puts "radius: #{@radius.inspect}"    
-  #   # puts "points: #{@points.inspect}"        
-  #   closest = @points.as_map_points.get_closest 3, :from => @center_point    
-  #   puts "3 closest points: #{closest.inspect}"        
-  # end
-  # 
-  it "should select all points within 4 km" do
+  it "should select the closest 3 points" do
     # puts "radius: #{@radius.inspect}"    
     # puts "points: #{@points.inspect}"        
-    closest = @points.as_map_points.get_within 4.km, :from => @center_point    
+    closest = @points.as_map_points.the_closest 3, :from => @center_point    
+    puts "3 closest points: #{closest.inspect}"        
+  end
+  
+  it "should select all points within 5 km" do
+    # puts "radius: #{@radius.inspect}"    
+    # puts "points: #{@points.inspect}"        
+    closest = @points.as_map_points.within_distance 5.km, :from => @center_point    
     puts "points within 4 km: #{closest.inspect}"        
   end
+
+  it "should select all points within 4 km (circle points)" do
+    # puts "radius: #{@radius.inspect}"    
+    # puts "points: #{@points.inspect}"        
+    closest = @circle_points.as_map_points.within_distance 4.km, :from => @center_point    
+    puts "circle_points: #{@circle_points}"
+    puts "points within 4 km: #{closest.inspect}"        
+  end
+
 
   it "should select all points within 4 km" do
     points = @radius.create_points_in_square 4  
@@ -63,7 +74,7 @@ describe "GeoMagic closest" do
 
     center_person = Person.new 'Man in the center', @center_point
     
-    people_within = persons.as_map_points.get_within 5.km, :from => center_person
+    people_within = persons.as_map_points.within_distance 5.km, :from => center_person
     puts "Persons within 4 km of Man in the center: #{people_within.inspect}"        
   end
 end

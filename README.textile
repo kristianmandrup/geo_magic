@@ -81,7 +81,27 @@ I have also just created a Geocode adapter for _Geocode_ and _Graticule_ (see: _
 
 h3. Create random points in Radius
 
-@create_points_in_square@ works, but @create_points_in_circle@ is currently broken. Please help fix this ASAP ;) Thanks!
+* @create_points_in_square@ 
+* @create_points_in_circle@
+
+h3. Points within an area or distance
+
+Within distance:
+
+<pre>@points.as_map_points.within_distance 4.km, :from => @center_point</pre>
+
+The closest n:
+
+<pre>@points.as_map_points.the_closest 4, :from => @center_point</pre>
+
+Within bounding rectangle:
+
+<pre>rectangle = GeoMagic::Rectangle.new(GeoMagic::Point.new(-115, 50), GeoMagic::Point.new(-100, 20))
+# or
+# rect = GeoMagic::Rectangle.create_from_coords lat1, long1, lat2, long2
+@points.as_map_points.within_rectangle rect, :from => @center_point
+
+</pre>
 
 h2. Meta magic
 

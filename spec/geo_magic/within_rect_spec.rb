@@ -13,7 +13,7 @@ describe "GeoMagic within rectanlge" do
     
   it "should select all points in rectangle" do
     rectangle = GeoMagic::Rectangle.new(GeoMagic::Point.new(115, 50), GeoMagic::Point.new(100, 20))
-    points_in_rectangle = @points.as_map_points.get_within_rect rectangle
+    points_in_rectangle = @points.as_map_points.within_rectangle rectangle
     puts "points: #{@points}"
     
     puts "---"
@@ -35,7 +35,7 @@ describe "GeoMagic within rectangle - negative longitude" do
     
   it "should select all points in rectangle" do
     rectangle = GeoMagic::Rectangle.new(GeoMagic::Point.new(-115, 50), GeoMagic::Point.new(-100, 20))
-    points_in_rectangle = @points.as_map_points.get_within_rect rectangle
+    points_in_rectangle = @points.as_map_points.within_rectangle rectangle
     puts "points: #{@points}"
     
     puts "---"

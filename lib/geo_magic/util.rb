@@ -39,7 +39,7 @@ module GeoMagic
       {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}                     
     end    
     
-    def get_within dist_obj, options = {:precision => :lowest}
+    def within_distance dist_obj, options = {:precision => :lowest}
       calc_method = get_proc(options[:precision] || :normal)
       from_loc = get_location get_dist_obj(options[:from])
 
@@ -58,13 +58,13 @@ module GeoMagic
       res
     end
 
-    def get_within_rect rectangle
+    def within_rectangle rectangle
       self.select do |point|
         rectangle.overlaps? point
       end
     end
 
-    def get_closest number, options = {}
+    def the_closest number, options = {}
       calc_method = get_proc(options[:precision] || :normal)
       from_loc = get_location options[:from]
       populate_distance(calc_method, from_loc).sort_by_distance[0..number]
