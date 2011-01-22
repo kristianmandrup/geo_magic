@@ -77,7 +77,15 @@ h2. Extra features
 
 Lots of extra features has been added recently. For now, please check out the specs to get an idea of the features included.
 Most recently I have added support to filter a list of points for those who are within a radius of another point (see _select_neares_spec.rb_).
+
+h3. Geocoder adapters
+
 I have also just created a Geocode adapter for _Geocode_ and _Graticule_ (see: _geocoder_spec.rb_) - This can also easily be configured for Rails.
+
+I recently discovered that the Geocode adapter didn't work for all addresses, so I made some improvements to make it more "stable". 
+I'm sure there are still corner cases it wont handle, so please join in the effort to fix this!
+
+Also note that the API has changed a little bit, so that it uses the same GeoMagic namespace as the rest of _geo_magic_.
 
 h3. Create random points in Radius
 
@@ -90,9 +98,16 @@ Within distance:
 
 <pre>@points.as_map_points.within_distance 4.km, :from => @center_point</pre>
 
-The closest n:
+The closest n points:
 
 <pre>@points.as_map_points.the_closest 4, :from => @center_point</pre>
+
+Or using container objects (objects containing a location):
+
+@people.as_map_points.the_closest 4, :from => @house
+
+Where @people is an array of Person and @house is an instance of House and where both House and Person has a #location, #to_point or #point method that returns an object
+with latitude and longitude methods that each return a float.
 
 Within bounding rectangle:
 
@@ -100,7 +115,6 @@ Within bounding rectangle:
 # or
 # rect = GeoMagic::Rectangle.create_from_coords lat1, long1, lat2, long2
 @points.as_map_points.within_rectangle rect, :from => @center_point
-
 </pre>
 
 h2. Meta magic

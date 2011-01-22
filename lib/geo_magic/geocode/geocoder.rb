@@ -3,7 +3,7 @@ require 'active_support/inflector'
 require 'geocode'
 require 'graticule'
 
-module GeoMap 
+module GeoMagic 
   class GeoAdapter
     attr_accessor :service_name, :environment
     
@@ -53,32 +53,41 @@ module GeoMap
       geo_coder.geocode(location_str).extend GeocodeAPI
     end
 
-    module GeocodeAPI      
-      def country
-        country_api["CountryNameCode"]
+    module GeocodeAPI
+      # Address
+      
+      def street
+        thoroughfare["ThoroughfareName"]
       end
 
-      def country_name
-        country_api["CountryName"]
-      end
-    
-      def state
-        adm_api["AdministrativeAreaName"]
-      end
-    
       def postal_code
-        subadm_api["Locality"]["PostalCode"]["PostalCodeNumber"]
+        locality["PostalCode"]["PostalCodeNumber"]
       end 
       alias_method :zip, :postal_code
     
-      def street
-        subadm_api["Thoroughfare"]["ThoroughfareName"]
-      end
-
       def city
         subadm_api["SubAdministrativeAreaName"]
       end
 
+      def state
+        adm_api["AdministrativeAreaName"]
+      end
+
+      def country_code
+        country_api["CountryNameCode"]
+      end
+
+      def country_name
+        country_api["CountryName"].gsub(/Bundesrepublik /, '')
+      end
+      alias_method :country, :country_name
+
+      def address_hash
+        {:street => street, :postal_code => postal_code, :city => city, :state => state, :country => country, :country_code => country_code}
+      end
+    
+      # Location
+    
       def latitude
         coords[1]
       end
@@ -86,8 +95,30 @@ module GeoMap
       def longitude
         coords[0]
       end
+
+      def location_hash
+        {:longitude => longitude, :latitude => latitude}
+      end
     
       protected
+
+      def thoroughfare
+        @thoroughfare ||= begin
+          thorough = [:subadm_api, :locality_api, :dependent_locality_api].select do |api|
+            send(api)["Thoroughfare"]
+          end         
+          send(thorough.first)["Thoroughfare"]   
+        end
+      end
+
+      def locality
+        @locality ||= begin
+          thorough = [:locality_api, :dependent_locality_api].select do |api|
+            send(api)["PostalCode"]
+          end         
+          send(thorough.first)   
+        end
+      end
 
       def api
         data["Placemark"].first
@@ -112,6 +143,14 @@ module GeoMap
       def subadm_api
         adm_api["SubAdministrativeArea"]
       end
+
+      def locality_api
+        subadm_api["Locality"]
+      end
+
+      def dependent_locality_api
+        locality_api["DependentLocality"]
+      end
     end
 
     def reverse_geocode latitude, longitude
@@ -125,7 +164,7 @@ module GeoMap
       service_name = options[:service_name] || :google
       type  = options[:type] || :geocode
       env   = options[:env]
-      "GeoMap::#{type.to_s.classify}Adapter".constantize.new service_name, env
+      "GeoMagic::#{type.to_s.classify}Adapter".constantize.new service_name, env
     end 
   
     def geocode location_str

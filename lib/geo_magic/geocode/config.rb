@@ -1,4 +1,4 @@
-module GeoMap
+module GeoMagic
   module ServiceAdapter
     attr_reader :geo_coder, :config
 

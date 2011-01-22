@@ -1,4 +1,4 @@
-module GeoMap
+module GeoMagic
   module RailsServiceAdapter
     attr_reader :geo_coder
 
@@ -17,7 +17,7 @@ module GeoMap
     end
   
     def config
-      @config ||= ::YAML.load_file("#{::Rails.root}/config/google_map.yml")[env]
+      @config ||= ::YAML.load_file("#{::Rails.root}/config/map_api_keys.yml")[env]
     end
 
     def google_key
