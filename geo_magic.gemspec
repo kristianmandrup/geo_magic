@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geo_magic}
-  s.version = "0.2.2.1"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-21}
+  s.date = %q{2011-01-22}
   s.description = %q{Get IP and location data using freegeoip.net - can also  calculate of distance between map points using haversine supporting multiple distance units}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
     "lib/geo_magic/remote.rb",
     "lib/geo_magic/util.rb",
     "lib/rails/config.rb",
-    "spec/fixtures/config.yaml",
+    "spec/fixtures/map_api_keys.yaml",
     "spec/geo_magic/calculate_spec.rb",
     "spec/geo_magic/geocoder_spec.rb",
     "spec/geo_magic/include_calc_spec.rb",
