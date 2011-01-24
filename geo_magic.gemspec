@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geo_magic}
-  s.version = "0.2.3.1"
+  s.version = "0.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -30,7 +30,10 @@ Gem::Specification.new do |s|
     "lib/geo_magic/calculate.rb",
     "lib/geo_magic/distance.rb",
     "lib/geo_magic/geocode/config.rb",
+    "lib/geo_magic/geocode/geo_adapter.rb",
+    "lib/geo_magic/geocode/geocode_adapter.rb",
     "lib/geo_magic/geocode/geocoder.rb",
+    "lib/geo_magic/geocode/graticule_adapter.rb",
     "lib/geo_magic/location.rb",
     "lib/geo_magic/map_point.rb",
     "lib/geo_magic/meta.rb",
