@@ -57,28 +57,28 @@ module GeoMagic
       # Address
       
       def street
-        thoroughfare["ThoroughfareName"]
+        thoroughfare["ThoroughfareName"] ? thoroughfare["ThoroughfareName"] : ""
       end
 
       def postal_code
-        locality["PostalCode"]["PostalCodeNumber"]
+        locality["PostalCode"] ? locality["PostalCode"]["PostalCodeNumber"] : ""
       end 
       alias_method :zip, :postal_code
     
       def city
-        subadm_api["SubAdministrativeAreaName"]
+        subadm_api["SubAdministrativeAreaName"] ? subadm_api["SubAdministrativeAreaName"] : ""
       end
 
       def state
-        adm_api["AdministrativeAreaName"]
+        adm_api["AdministrativeAreaName"] ? adm_api["AdministrativeAreaName"] : ""
       end
 
       def country_code
-        country_api["CountryNameCode"]
+        country_api["CountryNameCode"] ? country_api["CountryNameCode"] : ""
       end
 
       def country_name
-        country_api["CountryName"].gsub(/Bundesrepublik /, '')
+        country_api["CountryName"] ? country_api["CountryName"] : ""
       end
       alias_method :country, :country_name
 
@@ -105,18 +105,20 @@ module GeoMagic
       def thoroughfare
         @thoroughfare ||= begin
           thorough = [:subadm_api, :locality_api, :dependent_locality_api].select do |api|
-            send(api)["Thoroughfare"]
+            x = send(api)
+            x ? x["Thoroughfare"] : nil
           end         
-          send(thorough.first)["Thoroughfare"]   
+          thorough.empty? ? {} : send(thorough.first)["Thoroughfare"]          
         end
       end
 
       def locality
         @locality ||= begin
-          thorough = [:locality_api, :dependent_locality_api].select do |api|
-            send(api)["PostalCode"]
-          end         
-          send(thorough.first)   
+          loc = [:locality_api, :dependent_locality_api].select do |api|
+            x = send(api)
+            x ? x["PostalCode"] || x["LocalityName"] : nil
+          end
+          loc.empty? ? {} : send(loc.first)          
         end
       end
 

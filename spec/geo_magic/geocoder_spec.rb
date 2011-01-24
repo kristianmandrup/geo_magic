@@ -19,7 +19,7 @@ describe "GeoMagic Geocoder" do
   end        
 
   it "should create location and address hashes" do
-    location = @geocoder.instance.geocode "Marienplatz 14, munich, Germany"
+    location = @geocoder.instance.geocode "Pilotystrasse 11, munich, Germany"
     p location.location_hash
     p location.address_hash
   end        
