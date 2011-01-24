@@ -10,14 +10,22 @@ module GeoMagic
       raise 'method #reverse_geocode should be implemented by adapter subclass'
     end          
 
-    def configure path, env = :development
+    def configure path, env = :development 
       @config ||= ::YAML.load_file(path)[env.to_s]
     end
 
+    def self.services_available
+      [:google, :yahoo]
+    end
+
     protected
-  
-    def google_key
-      config['google_key'] 
-    end    
+
+    services_available.each do |api|
+      class_eval %{
+        def #{api}_key
+          config['#{api}_key'] 
+        end    
+      }
+    end
   end
 end

@@ -24,6 +24,23 @@ describe "GeoMagic Geocoder" do
     p location.address_hash
   end        
 
+  it "Graticule adapter" do
+    @geocoder = GeoMagic.geo_coder :type => :graticule, :services => :google
+    @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+    location = @geocoder.instance.geocode "Pilotystrasse 11, munich, Germany"
+    p location
+    p location.city
+  end        
+
+  it "Graticule Multi adapter" do
+    @geocoder = GeoMagic.geo_coder :type => :graticule_multi, :services => :google
+    @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+    location = @geocoder.instance.geocode "Pilotystrasse 11, munich, Germany"
+    p location
+    p location.city
+  end        
+
+
   # Geocoder with Rails 3
 
   # Expects map api keys (fx for google maps) to be defined in ROOT/config/map_api_keys.yml

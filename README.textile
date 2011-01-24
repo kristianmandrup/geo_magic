@@ -5,8 +5,14 @@ Many of the projects did not return quality data (fx when requesting IP or locat
 
 This little gem should get you going...
 
-* Get IP and location data using freegeoip.net 
-* Calculate of distance between map points using haversine (supports multiple distance units)
+Some of the main features:
+
+* Get IP and location data using freegeoip.net
+* Calculate distance between map points using various algorithms (haversine, spherical, vincenty, straight line)
+* Geocoding and Reverse Geocoding using adapters (currently: Graticule and Geocode gems)
+* Calculate nearest points from a point
+* Find points within a radius (circle or square from center)
+* Calculate points within a bounding box
 
 You can either include the complete library like this:
 
@@ -73,19 +79,52 @@ it "calculates distance using Hash args (short)" do
 end  
 </pre>
 
-h2. Extra features
+h2. Geocoder adapters
 
-Lots of extra features has been added recently. For now, please check out the specs to get an idea of the features included.
-Most recently I have added support to filter a list of points for those who are within a radius of another point (see _select_neares_spec.rb_).
+The following Geocode adapters are supported 
 
-h3. Geocoder adapters
+* Geocode 
+* Graticule
+* GraticuleMulti
 
-I have also just created a Geocode adapter for _Geocode_ and _Graticule_ (see: _geocoder_spec.rb_) - This can also easily be configured for Rails.
+Single Geocode Geocoder:
 
-I recently discovered that the Geocode adapter didn't work for all addresses, so I made some improvements to make it more "stable". 
-I'm sure there are still corner cases it wont handle, so please join in the effort to fix this!
+<pre>
+  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
+  @geocoder = GeoMagic.geo_coder(:type => :geocode)
+  @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  location = @geocoder.instance.geocode "Mullerstrasse 9, Munich"
+  location.city
+</pre>
 
-Also note that the API has changed a little bit, so that it uses the same GeoMagic namespace as the rest of _geo_magic_.
+Single Graticule Geocoder:
+
+<pre>
+  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
+  @geocoder = GeoMagic.geo_coder(:type => graticule)
+  @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  location = @geocoder.instance.geocode "Mullerstrasse 9, Munich"
+  location.city
+</pre>
+
+Multi Graticule Geocoder:
+
+<pre>
+  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
+  @geocoder = GeoMagic.geo_coder(:type => graticule_multi)
+  ..
+</pre>
+
+Multi Graticule Customization:
+
+<pre>
+  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
+  @geocoder = GeoMagic.geo_coder(:type => graticule_multi)
+  location = @geocoder.instance(:timeout => 3) do |result|
+    [:address, :street].include?(result.precision)]
+  end
+  ..
+</pre>
 
 h3. Create random points in Radius
 
