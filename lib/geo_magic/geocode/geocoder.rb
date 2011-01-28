@@ -6,6 +6,8 @@ require 'geo_magic/geocode/graticule_adapter'
 require 'geo_magic/geocode/geocode_adapter'
 
 module GeoMagic 
+  class GeoCodeError < StandardError; end;
+  
   class << self    
     def geo_coder options = {:type => :geocode, :service => :google}
       service_name = options[:service_name] || :google
@@ -19,7 +21,7 @@ module GeoMagic
       clazz.new services, env
     end 
   
-    def geocode location_str
+    def geocode location_str      
       geo_coder.geocode location_str
     end    
   end

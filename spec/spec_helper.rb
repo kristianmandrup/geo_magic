@@ -7,6 +7,8 @@ require 'geo_magic'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+SPEC_DIR = File.dirname(__FILE__)
+
 RSpec.configure do |config|
   
 end

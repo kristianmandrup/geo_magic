@@ -12,7 +12,10 @@ module GeoMagic
     end
   
     def geocode location_str
-      geo_coder.geocode(location_str).extend GeocodeAPI
+      result = geo_coder.geocode(CGI.escape(location_str)).extend GeocodeAPI
+      # p result.data['Status']
+      raise GeoMagic::GeoCodeError if result.data['Status']['code'] != 200
+      result
     end
 
     module GeocodeAPI

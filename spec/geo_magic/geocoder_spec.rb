@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'geo_magic'
+require 'helper/streets'
 
 describe "GeoMagic Geocoder" do
   before do
@@ -40,6 +41,35 @@ describe "GeoMagic Geocoder" do
     p location.city
   end        
 
+
+  context 'Streets from munich' do
+    before do
+      @geocoder = GeoMagic.geo_coder
+      @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+
+      @streets = Streets.load :munich     
+    end
+    
+    it "should not fail" do
+      begin
+        inst = @geocoder.instance
+        
+        @streets.each do |street|          
+          adr = "#{street}"
+          @adr = adr
+          p adr
+          @location = inst.geocode adr
+          # p "status: #{@location.data["Status"]}"
+          @location.city.should_not be_nil
+          # p "city: #{@location.city}"
+        end 
+      rescue GeoMagic::GeoCodeError
+        p "OH NO! #{@adr}"
+      rescue Exception => e
+        p e      
+      end
+    end
+  end
 
   # Geocoder with Rails 3
 
