@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geo_magic}
-  s.version = "0.2.4"
+  s.version = "0.2.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-24}
+  s.date = %q{2011-01-28}
   s.description = %q{Get IP and location data using freegeoip.net - can also  calculate of distance between map points using haversine supporting multiple distance units}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
     "lib/geo_magic/util.rb",
     "lib/rails/config.rb",
     "spec/fixtures/map_api_keys.yaml",
+    "spec/fixtures/streets.de.yml",
     "spec/geo_magic/calculate_spec.rb",
     "spec/geo_magic/geocoder_spec.rb",
     "spec/geo_magic/include_calc_spec.rb",
@@ -52,6 +53,7 @@ Gem::Specification.new do |s|
     "spec/geo_magic/remote_spec.rb",
     "spec/geo_magic/select_nearest_spec.rb",
     "spec/geo_magic/within_rect_spec.rb",
+    "spec/helper/streets.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/kristianmandrup/geo_magic}
@@ -68,6 +70,7 @@ Gem::Specification.new do |s|
     "spec/geo_magic/remote_spec.rb",
     "spec/geo_magic/select_nearest_spec.rb",
     "spec/geo_magic/within_rect_spec.rb",
+    "spec/helper/streets.rb",
     "spec/spec_helper.rb"
   ]
 
