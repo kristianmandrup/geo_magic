@@ -91,9 +91,9 @@ Single Geocode Geocoder:
 
 <pre>
   # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  @geocoder = GeoMagic.geo_coder(:type => :geocode)
-  @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
-  location = @geocoder.instance.geocode "Mullerstrasse 9, Munich"
+  geocoder = GeoMagic.geo_coder(:type => :geocode)
+  geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
   location.city
 </pre>
 
@@ -101,9 +101,9 @@ Single Graticule Geocoder:
 
 <pre>
   # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  @geocoder = GeoMagic.geo_coder(:type => graticule)
-  @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
-  location = @geocoder.instance.geocode "Mullerstrasse 9, Munich"
+  geocoder = GeoMagic.geo_coder(:type => graticule)
+  geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
   location.city
 </pre>
 
@@ -111,7 +111,7 @@ Multi Graticule Geocoder:
 
 <pre>
   # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  @geocoder = GeoMagic.geo_coder(:type => graticule_multi)
+  geocoder = GeoMagic.geo_coder(:type => graticule_multi)
   ..
 </pre>
 
@@ -119,12 +119,25 @@ Multi Graticule Customization:
 
 <pre>
   # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  @geocoder = GeoMagic.geo_coder(:type => graticule_multi)
-  location = @geocoder.instance(:timeout => 3) do |result|
+  geocoder = GeoMagic.geo_coder(:type => graticule_multi)
+  location = geocoder.instance(:timeout => 3) do |result|
     [:address, :street].include?(result.precision)]
   end
   ..
 </pre>
+
+Geocoder in Rails:
+
+<pre>
+  geocoder = GeoMagic.geo_coder(:env => :rails)
+  geocoder.configure
+
+  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
+  location.city.should == 'Munich'
+</pre>
+
+By default, the configuration expects a file in config/map_api_keys.yml containing the keys for each environment (see spec/fictures folder).
+This can be customized if needed: @geocoder.configure '../my_keys.yaml'@
 
 h3. Create random points in Radius
 

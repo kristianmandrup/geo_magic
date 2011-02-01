@@ -18,8 +18,6 @@ module GeoMagic
       [:google, :yahoo]
     end
 
-    protected
-
     services_available.each do |api|
       class_eval %{
         def #{api}_key

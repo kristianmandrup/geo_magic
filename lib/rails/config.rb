@@ -1,28 +1,18 @@
+require 'geo_magic/geocode/config'
+
 module GeoMagic
   module RailsServiceAdapter
-    attr_reader :geo_coder
-
-    def geocode location_str
-      raise 'method #geocode must be implemented by adapter subclass'
-    end
-
-    def reverse_geocode latitude, longitude
-      raise 'method #reverse_geocode should be implemented by adapter subclass'
-    end          
-
-    protected
+    include GeoMagic::ServiceAdapter
     
     def env 
-      ENV['HEROKU_SITE'] || ::Rails.env.downcase || 'development'
+      heroku = ENV['HEROKU_SITE'] if ENV         
+      rails_env = ::Rails.env.downcase if ::Rails.env
+      heroku || rails_env || 'development'
     end
   
-    def config
-      @config ||= ::YAML.load_file("#{::Rails.root}/config/map_api_keys.yml")[env]
+    def configure file_name = 'map_api_keys.yml'
+      @config ||= ::YAML.load_file("#{::Rails.root}/config/#{file_name}")[env]
     end
-
-    def google_key
-      config['google_key'] 
-    end    
   end  
 end
 
