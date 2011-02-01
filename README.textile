@@ -129,8 +129,7 @@ Multi Graticule Customization:
 Geocoder in Rails:
 
 <pre>
-  geocoder = GeoMagic.geo_coder(:env => :rails)
-  geocoder.configure
+  geocoder = GeoMagic.geo_coder(:env => :rails).configure
 
   location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
   location.city.should == 'Munich'

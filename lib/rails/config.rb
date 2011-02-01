@@ -12,6 +12,7 @@ module GeoMagic
   
     def configure file_name = 'map_api_keys.yml'
       @config ||= ::YAML.load_file("#{::Rails.root}/config/#{file_name}")[env]
+      self
     end
   end  
 end
