@@ -31,6 +31,8 @@ describe "GeoMagic Geocoder" do
   it "should geocode for rails with custom config file" do        
     @geocoder = GeoMagic.geo_coder(:env => :rails)
     @geocoder.configure '../map_api_keys.yaml'
+    puts "config: #{@geocoder.config}"
+    puts "google key: #{@geocoder.google_key}"
     location = @geocoder.instance.geocode "Mullerstrasse 9, Munich"
     location.city.should == 'Munich'
   end
