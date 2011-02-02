@@ -140,8 +140,19 @@ This can be customized if needed: @geocoder.configure '../my_keys.yaml'@
 
 h3. Create random points in Radius
 
-* @create_points_in_square@ 
-* @create_points_in_circle@
+From a given radius, you can create random points either in a square or circle radius. 
+
+* create_points_in_square 
+* create_points_in_circle
+
+Example use:
+
+<pre>
+  radius = center_point.within(10.km)
+  square_points = radius.create_points_in_square 6
+  circle_points = radius.create_points_in_circle 4  
+</pre>
+
 
 h3. Points within an area or distance
 
@@ -155,7 +166,7 @@ The closest n points:
 
 Or using container objects (objects containing a location):
 
-@people.as_map_points.the_closest 4, :from => @house
+@@people.as_map_points.the_closest 4, :from => @house@
 
 Where @people is an array of Person and @house is an instance of House and where both House and Person has a #location, #to_point or #point method that returns an object
 with latitude and longitude methods that each return a float.

@@ -41,7 +41,7 @@ describe "GeoMagic closest" do
     @radius = @center_point.within(10.km)
     @points = @radius.create_points_in_square 10
     
-    @circle_points = @radius.create_points_in_square 4
+    @circle_points = @radius.create_points_in_circle 4
   end
     
 
