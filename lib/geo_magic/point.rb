@@ -1,13 +1,27 @@
 require 'geo_magic/map_point'
+require 'geo_magic/point/class_methods'
 
 module GeoMagic
-  class Point < MapPoint
+  class Point
+    extend ClassMethods
+    extend Conversion
     
     def initialize latitude, longitude
       super
     end
+
+    # factory method
+    def create_from *args
+      case args.size 
+      when 1
+        args.first.to_point
+      when 2
+        @latitude, @longitude = args.to_points
+      else
+        raise "Bad argument to create a point from: #{args}"
+    end    
         
-    def to_hash mode= :long
+    def to_point_hash mode= :long
       case mode
       when :short
         {:lat => latitude, :long => longitude}
@@ -17,11 +31,11 @@ module GeoMagic
     end 
 
     def to_location
-      raise "TODO: Use geocoder!"
+      GeoMagic.geocoder.instance.reverse_geocode latitude, longitude
     end
     
     def to_s   
       "(lat: #{latitude}, long: #{longitude}, dist: #{dist})"
-    end
+    end    
   end
 end

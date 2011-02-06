@@ -1,10 +1,43 @@
 module GeoMagic
-  class Rectangle
-    attr_accessor :top_left_point, :bottom_right_point
-    
+  class Rectangle    
+    attr_accessor :point_a, :point_b
+
     def initialize point_a, point_b
-      @top_left_point     = GeoMagic::Point.new left_lat(point_a, point_b), bot_long(point_a, point_b)
-      @bottom_right_point = GeoMagic::Point.new right_lat(point_a, point_b), top_long(point_a, point_b)
+      @point_a = point_a
+      @point_b = point_b      
+    end
+
+    def point_a= point
+      @point_a = point_a
+      invalidate_all!
+    end
+
+    def point_a= point
+      @point_b = point_b
+      invalidate_all!
+    end
+
+    def invalidate_all!
+      @upper_left = nil
+      @lower_left = nil
+      @lower_right = nil
+      @upper_right = nil
+    end
+
+    def upper_left
+      @upper_left ||= GeoMagic::Point.new left_lat(point_a, point_b), top_long(point_a, point_b)
+    end
+
+    def lower_left
+      @lower_left ||= GeoMagic::Point.new left_lat(point_a, point_b), bot_long(point_a, point_b)
+    end
+
+    def lower_right
+      @lower_right ||= GeoMagic::Point.new right_lat(point_a, point_b), bot_long(point_a, point_b)
+    end
+
+    def upper_right
+      @upper_right ||= GeoMagic::Point.new right_lat(point_a, point_b), top_long(point_a, point_b)
     end
 
     def self.create_from_coords lat1, long1, lat2, long2
@@ -12,13 +45,12 @@ module GeoMagic
     end 
     
     def overlaps? point
-      # puts "inside_top_left?: #{point} -> #{inside_top_left?(point)}"
-      # puts "inside_bottom_right?: #{point} -> #{inside_bottom_right?(point)}"
       inside_top_left?(point) && inside_bottom_right?(point)
     end
 
-    def to_s
-      "#{top_left_point} - #{bottom_right_point}"
+    def to_s mode = :normal
+      return "#{lower_left} - #{upper_right}" if mode == :mongoid
+      "#{top_left} - #{bottom_right}"
     end
     
     protected
@@ -42,7 +74,6 @@ module GeoMagic
       return point_a.latitude if point_a.latitude > point_b.latitude
       point_b.latitude
     end
-
     
     def inside_top_left? point
       top_left_point.latitude < point.latitude && top_left_point.longitude < point.longitude

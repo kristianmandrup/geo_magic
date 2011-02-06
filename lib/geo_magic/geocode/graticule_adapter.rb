@@ -64,6 +64,10 @@ module GeoMagic
       self
     end
 
+    def reverse_geocode latitude, longitude
+      raise "Graticule adapter does not currently support reverse geocoding"
+    end
+
     def geocode location_str
       geo_coder.locate location_str
     end    

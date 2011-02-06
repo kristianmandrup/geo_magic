@@ -10,12 +10,12 @@ module GeoMagic
       @distance = distance
     end  
 
-    # IN BAAAAD !!! need of refactoring and DRYing up!!!
-
-
+    # Factory
     def create_point_within mode = :square
       raise ArgumentError, "mode must be :circle or :square" if ![:circle, :square].include? mode
-      send :"create_point_within_#{mode}"
+      # Circle.create_within radius
+      mode.to_s.classify.create_within self
+      # send :"create_point_within_#{mode}"
     end
 
     include Random

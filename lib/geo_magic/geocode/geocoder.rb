@@ -20,6 +20,10 @@ module GeoMagic
       
       clazz.new services, env
     end 
+
+    def reverse_geocode latitude, longitude
+      geo_coder.reverse_geocode latitude, longitude
+    end
   
     def geocode location_str      
       geo_coder.geocode location_str
