@@ -1,4 +1,4 @@
-module GeoDistance 
+module GeoMagic 
   class Distance
     class Unit
       attr_accessor :name, :number
@@ -10,6 +10,10 @@ module GeoDistance
 
       def number
         @number.round_to(precision[name])
+      end
+
+      def self.units 
+        GeoMagic::Distance.units
       end
 
       def radians_ratio

@@ -41,7 +41,5 @@ module GeoMagic
         res
       end
     end
-
-    include Random
   end
 end

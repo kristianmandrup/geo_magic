@@ -17,7 +17,7 @@ class Float
   alias_method :to_radians, :rpd
 end             
 
-
+require 'geo_magic/distance'
 
 class Symbol
   def radians_ratio
@@ -43,6 +43,13 @@ class Integer
 end
 
 class Array
+  def are_points?
+    each do |p|
+      return false if !p.kind_of?(GeoMagic::Point)  
+    end
+    true
+  end
+  
   def as_map_points
     self.extend GeoMagic::MapPoints
   end

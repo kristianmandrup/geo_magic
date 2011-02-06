@@ -1,5 +1,7 @@
+require 'geo_magic/radius'
+
 module GeoMagic
-  class Radius
+  class Radius < Point
     class RandomPoints
       attr_reader :radius
       

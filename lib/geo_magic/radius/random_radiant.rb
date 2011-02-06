@@ -1,5 +1,5 @@
 module GeoMagic
-  class Radius
+  class Radius < Point
     module RandomRadiant 
       def get_random_radiant range
         self.class.get_random_radiant range

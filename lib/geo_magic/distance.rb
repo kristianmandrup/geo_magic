@@ -1,8 +1,3 @@
-module GeoMagic 
-  class Distance
-  end
-end
-
 require 'geo_magic/distance/class_methods'
 require 'geo_magic/distance/unit'
 require 'geo_magic/distance/vector'
@@ -22,13 +17,13 @@ module GeoMagic
       @unit = unit.to_sym
     end
   
-    def [] key               
+    def [] key
       method = :"delta_#{key}"
       raise ArgumentError, "Invalid unit key #{key}" if !respond_to? method
       Distance.send "in_#{key}", send(method)
     end
 
-    GeoDistance.units.each do |unit|
+    GeoMagic::Distance.units.each do |unit|
       class_eval %{
         def #{unit}
           self[:#{unit}]
@@ -39,16 +34,16 @@ module GeoMagic
     protected
   
     # delta between the two points in miles
-    GeoDistance.units.each do |unit|
+    GeoMagic::Distance.units.each do |unit|
       class_eval %{
         def delta_#{unit}
-          GeoDistance.earth_radius[:#{unit}] * distance
+          GeoMagic::Distance.earth_radius[:#{unit}] * distance
         end
       }
     end
 
     class << self            
-      GeoDistance.units.each do |unit|
+      GeoMagic::Distance.units.each do |unit|
         class_eval %{
           def in_#{unit} number
             Unit.new :#{unit}, number

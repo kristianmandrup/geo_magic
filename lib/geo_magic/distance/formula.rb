@@ -1,7 +1,3 @@
-require 'geo_magic/distance/formula/vincenty'
-require 'geo_magic/distance/formula/spherical'
-require 'geo_magic/distance/formula/haversine'
-
 module GeoMagic  
   class Distance
     class Formula
@@ -20,3 +16,6 @@ module GeoMagic
   end
 end
 
+require 'geo_magic/distance/formula/vincenty'
+require 'geo_magic/distance/formula/spherical'
+require 'geo_magic/distance/formula/haversine'

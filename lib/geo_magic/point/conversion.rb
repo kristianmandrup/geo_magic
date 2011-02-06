@@ -1,5 +1,5 @@
 module GeoMagic
-  module Point
+  class Point
     module Conversion
       # convert hash or object to [x, y] of floats
       def to_points
@@ -29,7 +29,7 @@ module GeoMagic
 end
          
 module GeoMagic
-  module PointConversion
+  module PointConverter
     protected
 
     def to_point v

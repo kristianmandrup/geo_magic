@@ -10,26 +10,12 @@ module GeoMagic
     end
 
     module ClassMethods
-      def distance from_point, to_point, options = { :unit => :meters }
-        points = extract_points from_point, to_point
-        dist = ::GeoDistance.distance( *points )[options[:unit]]
+      def distance from_point, to_point, options = { :unit => :meters }   
+        unit = options[:unit]
+        points  = ::GeoMagic::Point.extract_points from_point, to_point
+        dist    = ::GeoMagic::Distance.distance( *points ).send unit
         dist.number
-      end    
-
-      def plane_distance from_point, to_point, options = { :unit => :meters }
-        points = extract_points from_point, to_point
-        Math.sqrt((points[0] - points[2] + points[1] - points[3]).abs)
       end
-    
-      protected   
-      
-      def extract_points from_point, to_point
-        [extract_point(from_point), extract_point(to_point)].flatten.map(&:to_f)
-      end
-    
-      def extract_point point
-        GeoMagic::Util.extract_point point
-      end 
     end
     
     extend ClassMethods

@@ -1,5 +1,5 @@
-require 'geo_magic/map_point'
 require 'geo_magic/point/class_methods'
+require 'geo_magic/point/conversion'
 
 module GeoMagic
   class Point

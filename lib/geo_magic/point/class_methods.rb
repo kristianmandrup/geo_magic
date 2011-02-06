@@ -1,3 +1,7 @@
+
+
+# IMPORTANT: See and use conversion instead!
+
 module GeoMagic
   class Point
     module ClassMethods
@@ -12,8 +16,8 @@ module GeoMagic
         when Array
           [point[0], point[1]]
         end 
-      end  
-  
+      end
+        
       def extract_points from_point, to_point
         [extract_point(from_point), extract_point(to_point)].flatten.map(&:to_f)
       end      

@@ -32,23 +32,29 @@
 
 require 'geo_magic/distance/formula'
 
-module GeoMagic::Distance
-  class Haversine < Formula
-    # given two lat/lon points, compute the distance between the two points using the haversine formula
-    #  the result will be a Hash of distances which are key'd by 'mi','km','ft', and 'm'
+module GeoMagic
+  class Distance
+    class Haversine < Formula
+      def self.point_distance point_a, point_b
+        points = GeoMagic::Util.extract_points point_a, point_b
+        distance *points
+      end
 
-    def self.distance( lat1, lon1, lat2, lon2) 
-      dlon = lon2 - lon1
-      dlat = lat2 - lat1
+      # given two lat/lon points, compute the distance between the two points using the haversine formula
+      #  the result will be a Hash of distances which are key'd by 'mi','km','ft', and 'm'
+      def self.distance( lat1, lon1, lat2, lon2) 
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
 
-      a = calc(dlat, lat1, lat2, dlon)
-      c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
+        a = calc(dlat, lat1, lat2, dlon)
+        c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
 
-      GeoMagic::Distance.new c
-    end  
+        GeoMagic::Distance.new c
+      end  
 
-    def self.calc dlat, lat1, lat2, dlon
-      (Math.sin(dlat.rpd/2))**2 + Math.cos(lat1.rpd) * Math.cos((lat2.rpd)) * (Math.sin(dlon.rpd/2))**2    
+      def self.calc dlat, lat1, lat2, dlon
+        (Math.sin(dlat.rpd/2))**2 + Math.cos(lat1.rpd) * Math.cos((lat2.rpd)) * (Math.sin(dlon.rpd/2))**2    
+      end
     end
   end
 end

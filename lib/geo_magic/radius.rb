@@ -1,10 +1,8 @@
+require 'geo_magic/point'
 require 'geo_magic/radius/random_radiant'
-require 'geo_magic/radius/square'
-require 'geo_magic/radius/circular'
-require 'geo_magic/radius/rectangular'
 
 module GeoMagic
-  class Radius < Point    
+  class Radius < Point
     def initialize latitude, longitude
       super
     end  
@@ -31,6 +29,14 @@ module GeoMagic
       @center = Point.create_from point
     end
 
+    protected
+
     include RandomRadiant
   end
 end
+
+
+require 'geo_magic/radius/random_points'
+require 'geo_magic/radius/square'
+require 'geo_magic/radius/circular'
+require 'geo_magic/radius/rectangular'
