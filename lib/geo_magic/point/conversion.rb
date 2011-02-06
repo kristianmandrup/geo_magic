@@ -3,8 +3,8 @@ module GeoMagic
     module Conversion
       # convert hash or object to [x, y] of floats
       def to_points
-        v = self.kind_of?(Array) ? self.map {|p| p.kind_of?(Fixnum) ? p.to_f : p.extend(Mongoid::Geo::Point).to_point } : self
-        v.flatten
+        v = self.kind_of?(Array) ? self.map {|p| p.kind_of?(Fixnum) ? p.to_f : p.extend(GeoMagic::Point::Conversion).to_point } : self
+        v.flatten.compact.map(&:to_f)
       end
 
       def to_vector
@@ -15,7 +15,7 @@ module GeoMagic
       def to_point
         case self
         when Hash
-          return [self[:lat], self[:lng]] if self[:lat]
+          return [self[:lat], (self[:lng] || self[:long])] if self[:lat]
           return [self[:latitude], self[:longitude]] if self[:latitude]
           raise "Hash must contain either :lat, :lng or :latitude, :longitude keys to be converted to a geo point"
         when nil

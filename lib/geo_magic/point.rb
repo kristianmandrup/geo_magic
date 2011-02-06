@@ -5,9 +5,12 @@ module GeoMagic
   class Point
     extend ClassMethods
     extend Conversion
+
+    attr_accessor :latitude, :longitude
     
     def initialize latitude, longitude
-      super
+      @latitude = latitude
+      @longitude = longitude
     end
 
     # factory method
@@ -36,7 +39,7 @@ module GeoMagic
     end
     
     def to_s   
-      "(lat: #{latitude}, long: #{longitude}, dist: #{dist})"
+      "(lat: #{latitude}, long: #{longitude})"
     end    
   end
 end

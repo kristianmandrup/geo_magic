@@ -1,3 +1,4 @@
+require 'geo_magic/calculate'
 require 'geo_magic/distance/class_methods'
 require 'geo_magic/distance/unit'
 require 'geo_magic/distance/vector'
@@ -15,10 +16,6 @@ module GeoMagic
 
       raise ArgumentError, "Invalid unit: #{unit} - must be one of #{GeoMagic::Distance.units}" if !GeoMagic::Distance.units.include?(unit.to_sym)
       @unit = unit.to_sym
-    end
-
-    def self.distance p0, p1, options = {:precision => :normal}
-      
     end
   
     def [] key

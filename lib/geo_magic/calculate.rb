@@ -8,9 +8,22 @@ module GeoMagic
     end
 
     module ClassMethods
-      def distance from_point, to_point, options = { :unit => :meters }   
-        unit = options[:unit]
-        points  = ::GeoMagic::Point.extract_points from_point, to_point
+      def distance *args
+        options = last_arg_value({:unit => :meters}, args)
+        puts "args: #{args.inspect}"
+        points = case args.size
+        when 2..3
+          args[0..1]
+        when 4..5
+          args [0..3]
+        else
+          args.first
+        end
+
+        options = {:unit => options} if options.kind_of?(Symbol)        
+        unit    = options[:unit]
+        points = points.extend(GeoMagic::Point::Conversion).to_points
+        
         dist    = ::GeoMagic::Distance.distance( *points ).send unit
         dist.number
       end

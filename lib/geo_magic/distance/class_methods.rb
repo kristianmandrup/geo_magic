@@ -21,13 +21,13 @@ module GeoMagic
 
       def default_formula= formula
         warn_invalid_formula if !valid_formula? formula
-        @default_formula = name 
+        @default_formula = formula 
       end
 
       def distance lat1, lon1, lat2, lon2, formula = nil
         warn_invalid_formula if !valid_formula? formula
 
-        formula = algorithm || default_algorithm
+        formula ||= default_formula
 
         klass = case formula
         when :haversine
@@ -37,7 +37,7 @@ module GeoMagic
         when :vincenty
           GeoMagic::Distance::Vincenty
         else
-          raise ArgumentError, "Not a valid algorithm. Must be one of: #{algorithms}"
+          raise ArgumentError, "Not a valid algorithm: #{formula}. Must be one of: #{formulas}"
         end
 
         klass.distance lat1, lon1, lat2, lon2
@@ -50,6 +50,7 @@ module GeoMagic
       protected
 
       def valid_formula? formula
+        return true if !formula
         formulas.include? formula.to_sym
       end
       

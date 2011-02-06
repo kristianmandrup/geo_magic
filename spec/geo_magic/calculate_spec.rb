@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'geo_magic'
 
 describe "GeoMagic Calculate" do
   before do
@@ -16,7 +15,7 @@ describe "GeoMagic Calculate" do
   end
 
   it "Changing default distance algorithm to vincenty" do
-    GeoMagic::Distance.default_algorithm = :vincenty
+    GeoMagic::Distance.default_formula = :vincenty
     dist = GeoMagic::Calculate.distance [@long1, @lat1], [@long2, @lat2]    
     puts dist    
   end
@@ -42,8 +41,8 @@ describe "GeoMagic Calculate" do
   end
   
   it "calculates distance using Hash args (short)" do
-    from_point = GeoMagic::Point.new(@long1, @lat1).to_hash :short
-    to_point = GeoMagic::Point.new(@long2, @lat2).to_hash :short
+    from_point = GeoMagic::Point.new(@long1, @lat1).to_point_hash :short
+    to_point = GeoMagic::Point.new(@long2, @lat2).to_point_hash :long
     
     puts "from: #{from_point}, to: #{to_point}"
     

@@ -3,6 +3,8 @@ module GeoMagic
   PI_2 = PI * 2  
 end
 
+require 'sugar-high/arguments'
+
 require 'geo_magic/core_ext'
 require 'geo_magic/remote'
 require 'geo_magic/calculate'
