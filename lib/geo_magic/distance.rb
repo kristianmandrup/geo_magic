@@ -5,6 +5,7 @@ end
 
 require 'geo_magic/distance/class_methods'
 require 'geo_magic/distance/unit'
+require 'geo_magic/distance/vector'
 require 'geo_magic/distance/formula'
 
 module GeoMagic 

@@ -1,11 +1,20 @@
 module GeoMagic
-  class Rectangle    
+  class Rectangle < Shape
     attr_accessor :point_a, :point_b
 
     def initialize point_a, point_b
       @point_a = point_a
       @point_b = point_b      
     end
+
+    # create rectangle within radius of point
+    # in this case the radius has a vertical and horizontal radius
+    def create_within radius      
+    end
+
+    # is point within the square
+    def within? point
+    end    
 
     def point_a= point
       @point_a = point_a

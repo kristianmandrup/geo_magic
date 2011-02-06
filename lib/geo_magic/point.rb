@@ -12,13 +12,14 @@ module GeoMagic
 
     # factory method
     def create_from *args
-      case args.size 
+      @latitude, @longitude = case args.size 
       when 1
         args.first.to_point
       when 2
-        @latitude, @longitude = args.to_points
+         args.to_points
       else
         raise "Bad argument to create a point from: #{args}"
+      end
     end    
         
     def to_point_hash mode= :long

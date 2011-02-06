@@ -1,5 +1,5 @@
 module GeoMagic
-  module Circle
+  class Circle < Shape
     def create_within radius
       
     end

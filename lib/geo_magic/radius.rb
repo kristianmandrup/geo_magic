@@ -1,23 +1,36 @@
-module GeoMagic
-  class Radius
-    attr_accessor :center, :distance
+require 'geo_magic/radius/random_radiant'
+require 'geo_magic/radius/square'
+require 'geo_magic/radius/circular'
+require 'geo_magic/radius/rectangular'
 
-    PI = 3.14159265
-    PI_2 = PI * 2
-    
-    def initialize center, distance
-      @center = center
-      @distance = distance
+module GeoMagic
+  class Radius < Point    
+    def initialize latitude, longitude
+      super
     end  
 
-    # Factory
-    def create_point_within mode = :square
-      raise ArgumentError, "mode must be :circle or :square" if ![:circle, :square].include? mode
-      # Circle.create_within radius
-      mode.to_s.classify.create_within self
-      # send :"create_point_within_#{mode}"
+    def random_point_within
+      raise "Must be implemented by subclass"
     end
 
-    include Random
+    def random_points_within number
+      raise "Must be implemented by subclass"      
+    end
+
+    # allows for DSL
+    # random_points(3).within
+    def random_points number
+      RandomPoints.new self, number
+    end
+
+    def center
+      @center ||= Point.create_from self
+    end
+
+    def center= point
+      @center = Point.create_from point
+    end
+
+    include RandomRadiant
   end
 end

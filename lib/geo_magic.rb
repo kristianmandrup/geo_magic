@@ -1,4 +1,6 @@
 module GeoMagic
+  PI = 3.14159265
+  PI_2 = PI * 2  
 end
 
 require 'geo_magic/remote'
