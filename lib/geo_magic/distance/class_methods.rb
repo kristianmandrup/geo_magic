@@ -19,13 +19,17 @@ module GeoMagic
         GeoMagic::Distance.radians_per_degree * earth_radius[unit]          
       end
 
-      def default_algorithm= name
-        raise ArgumentError, "Not a valid algorithm. Must be one of: #{algorithms}" if !algorithms.include?(name.to_sym)
-        @default_algorithm = name 
+      def default_formula= formula
+        warn_invalid_formula if !valid_formula? formula
+        @default_formula = name 
       end
 
-      def distance( lat1, lon1, lat2, lon2) 
-        klass = case default_algorithm
+      def distance lat1, lon1, lat2, lon2, formula = nil
+        warn_invalid_formula if !valid_formula? formula
+
+        formula = algorithm || default_algorithm
+
+        klass = case formula
         when :haversine
           GeoMagic::Distance::Haversine
         when :spherical
@@ -35,16 +39,25 @@ module GeoMagic
         else
           raise ArgumentError, "Not a valid algorithm. Must be one of: #{algorithms}"
         end
+
         klass.distance lat1, lon1, lat2, lon2
       end
 
-      def default_algorithm 
-        @default_algorithm || :haversine
+      def default_formula 
+        @default_formula || :haversine
       end
 
       protected
 
-      def algorithms
+      def valid_formula? formula
+        formulas.include? formula.to_sym
+      end
+      
+      def warn_invalid_formula
+        raise ArgumentError, "Not a valid distance formula. Must be one of: #{formulas}" if !formulas.include?(name.to_sym)        
+      end
+
+      def formulas
         [:haversine, :spherical, :vincenty]
       end
     

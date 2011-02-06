@@ -7,6 +7,11 @@ module GeoMagic
         v.flatten
       end
 
+      def to_vector
+        points = self.to_points
+        Vector.new(points[0], points[1])        
+      end
+
       def to_point
         case self
         when Hash

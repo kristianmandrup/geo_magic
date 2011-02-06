@@ -9,12 +9,21 @@ module GeoMagic
 
     # create rectangle within radius of point
     # in this case the radius has a vertical and horizontal radius
-    def create_within radius      
+    def create_within radius
+      GeoMagic::Radius::Rectangular.create_from self
     end
 
     # is point within the square
     def within? point
     end    
+
+    def vector
+      Vector.new(point_a, point_b)
+    end
+
+    def vector_distance
+      Vector.new(point_a, point_b).vector_distance
+    end
 
     def point_a= point
       @point_a = point_a

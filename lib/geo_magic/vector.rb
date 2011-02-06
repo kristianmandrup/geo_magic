@@ -7,7 +7,24 @@ module GeoMagic
         @p0 = p0
         @p1 = p1
       end
-      
+
+      def length type = nil
+        case type
+        when nil
+          GeoMagic::Distance.distance(p0, p1)
+        when :latitude
+          (p0.latitude - p1.latitude).abs
+        when :longitude
+          (p0.longitude - p1.longitude).abs
+        else
+          raise ArgumentError, "Bad argument for calculating lenght, valid args are: nil, :latitude or :longitude"
+        end
+      end
+
+      def vector_distance
+        GeoMagic::Distance::Vector.new length(:latitude), length(:longitude)
+      end        
+        
       def [] key
         case key
         when 0, :p0

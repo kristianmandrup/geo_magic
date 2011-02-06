@@ -7,12 +7,26 @@ module GeoMagic
       @vector = vector
     end  
 
-    def horizontal_distance
-      vector.horizontal_distance
+    def create_from *args
+      case args.size 
+      when 1
+        arg = args.first
+        if arg.kind_of? GeoMagic::Rectangle
+          rectangle = arg 
+          new rectangle.point_a, rectangle.vector
+        end
+      when 2
+        vector = args.to_vector
+        new vector[0], vector
+      end
+    end
+
+    def lat_distance
+      vector.lat_distance
     end
       
-    def vertical_distance
-      vector.vertical_distance
+    def long_distance
+      vector.long_distance
     end
 
     # Factory

@@ -16,6 +16,10 @@ module GeoMagic
       raise ArgumentError, "Invalid unit: #{unit} - must be one of #{GeoMagic::Distance.units}" if !GeoMagic::Distance.units.include?(unit.to_sym)
       @unit = unit.to_sym
     end
+
+    def self.distance p0, p1, options = {:precision => :normal}
+      
+    end
   
     def [] key
       method = :"delta_#{key}"

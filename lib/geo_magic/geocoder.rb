@@ -1,24 +1,28 @@
 require 'geo_magic/geocode/config'
 require 'active_support/inflector'
 
-require 'geo_magic/geocode/geo_adapter'
-require 'geo_magic/geocode/graticule_adapter'
-require 'geo_magic/geocode/geocode_adapter'
+require 'geo_magic/geocode/base_adapter'
+require 'geo_magic/geocode/geocoder/adapter'
+require 'geo_magic/geocode/graticule/adapter'
+require 'geo_magic/geocode/graticule/multi_adapter'
 
 module GeoMagic 
   class GeoCodeError < StandardError; end;
   
   class << self    
-    def geo_coder options = {:type => :geocode, :service => :google}
+    def geo_coder options = {:type => :geocoder, :service => :google}
       service_name = options[:service_name] || :google
-      type  = options[:type] || :geocode
+      type  = options[:type] || :geocoder
       env   = options[:env]
 
       services = options[:services] || options[:service] || :google
-      
-      clazz = "GeoMagic::#{type.to_s.classify}Adapter".constantize
-      
-      clazz.new services, env
+
+      begin
+        clazz = "GeoMagic::Geocode::#{type.to_s.classify}Adapter".constantize      
+        clazz.new services, env
+      rescue Exception => e
+        raise "No GeocodeAdapter found for #{type}, error: #{e}"
+      end
     end 
 
     def reverse_geocode latitude, longitude
