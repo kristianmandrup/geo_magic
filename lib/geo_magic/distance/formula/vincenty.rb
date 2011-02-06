@@ -70,7 +70,7 @@ module GeoMagic
    
         c = earth_minor_axis_radius * a * (sigma-delta_sigma)
 
-        GeoDistance::Distance.new(c / unkilometer)
+        GeoMagic::Distance.new(c / unkilometer)
       end
 
       private

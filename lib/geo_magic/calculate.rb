@@ -1,7 +1,5 @@
-require 'geo-distance'
 require 'geo_magic/point'
-require 'geo_magic/util'
-require 'geo_magic/location'
+require 'geo_magic/distance'
 
 module GeoMagic
   module Calculate #:nodoc:

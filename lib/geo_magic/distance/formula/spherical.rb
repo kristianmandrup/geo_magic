@@ -23,7 +23,7 @@ module GeoMagic
             Math.cos(to_longitude - from_longitude)
         ) #* EARTH_RADIUS[units.to_sym]
       
-        GeoDistance::Distance.new c
+        GeoMagic::Distance.new c
       end
     end
   end

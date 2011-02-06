@@ -68,9 +68,9 @@ module GeoMagic
       when :low
         Proc.new {|point_a, point_b| ::GeoMagic::Calculate.plane_distance point_a, point_b }
       when :normal
-        Proc.new {|point_a, point_b| ::GeoDistance::Haversine.point_distance point_a, point_b }
+        Proc.new {|point_a, point_b| ::GeoMagic::Distance::Haversine.point_distance point_a, point_b }
       when :high
-        Proc.new {|point_a, point_b| ::GeoDistance::Vincenty.point_distance point_a, point_b }
+        Proc.new {|point_a, point_b| ::GeoMagic::Distance::Vincenty.point_distance point_a, point_b }
       else
         raise ArgumentError, "Unknown precision: #{precision}"
       end

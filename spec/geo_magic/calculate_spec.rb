@@ -16,7 +16,7 @@ describe "GeoMagic Calculate" do
   end
 
   it "Changing default distance algorithm to vincenty" do
-    GeoDistance.default_algorithm = :vincenty
+    GeoMagic::Distance.default_algorithm = :vincenty
     dist = GeoMagic::Calculate.distance [@long1, @lat1], [@long2, @lat2]    
     puts dist    
   end

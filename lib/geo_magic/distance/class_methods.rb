@@ -16,7 +16,7 @@ module GeoMagic
       end
 
       def radians_ratio unit
-        GeoDistance.radians_per_degree * earth_radius[unit]          
+        GeoMagic::Distance.radians_per_degree * earth_radius[unit]          
       end
 
       def default_algorithm= name
@@ -27,11 +27,11 @@ module GeoMagic
       def distance( lat1, lon1, lat2, lon2) 
         klass = case default_algorithm
         when :haversine
-          GeoDistance::Haversine
+          GeoMagic::Distance::Haversine
         when :spherical
-          GeoDistance::Spherical        
+          GeoMagic::Distance::Spherical        
         when :vincenty
-          GeoDistance::Vincenty
+          GeoMagic::Distance::Vincenty
         else
           raise ArgumentError, "Not a valid algorithm. Must be one of: #{algorithms}"
         end

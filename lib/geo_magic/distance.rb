@@ -13,7 +13,7 @@ module GeoMagic
       @distance = distance
       return if !unit
 
-      raise ArgumentError, "Invalid unit: #{unit} - must be one of #{GeoDistance.units}" if !GeoDistance.units.include?(unit.to_sym)
+      raise ArgumentError, "Invalid unit: #{unit} - must be one of #{GeoMagic::Distance.units}" if !GeoMagic::Distance.units.include?(unit.to_sym)
       @unit = unit.to_sym
     end
   

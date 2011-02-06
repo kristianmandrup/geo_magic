@@ -1,4 +1,4 @@
-require 'geo_magic/map_point'
+require 'geo_magic/point/map_point'
 
 module GeoMagic
   class Location < MapPoint

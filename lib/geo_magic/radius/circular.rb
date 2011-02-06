@@ -21,7 +21,7 @@ module GeoMagic
     end
 
     def random_points_within number
-      conversion = GeoDistance.radians_ratio(distance.unit)
+      conversion = GeoMagic::Distance.radians_ratio(distance.unit)
 
       max_radius_rad = distance.distance
       range = normalize max_radius_rad
