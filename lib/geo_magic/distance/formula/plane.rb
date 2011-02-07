@@ -3,7 +3,8 @@ module GeoMagic
     class Plane < Formula
       def distance from_point, to_point, options = { :unit => :meters } 
         vector = Vector.new :formula => self
-        vector.distance options
+        dist = vector.distance options
+        GeoMagic::Distance.new vector_distance(vector, options)        
       end    
 
       def vector_distance vector, options = { :unit => :meters }

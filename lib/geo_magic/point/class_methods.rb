@@ -1,5 +1,3 @@
-
-
 # IMPORTANT: See and use conversion instead!
 
 module GeoMagic

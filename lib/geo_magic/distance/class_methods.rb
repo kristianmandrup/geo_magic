@@ -24,6 +24,16 @@ module GeoMagic
         @default_formula = formula 
       end
 
+      def default_formula 
+        @default_formula || :haversine
+      end
+
+      def calculate *args
+        GeoMagic::Calculate.distance *args        
+      end
+
+      protected
+
       def distance lat1, lon1, lat2, lon2, formula = nil
         warn_invalid_formula if !valid_formula? formula
 
@@ -42,12 +52,6 @@ module GeoMagic
 
         klass.distance lat1, lon1, lat2, lon2
       end
-
-      def default_formula 
-        @default_formula || :haversine
-      end
-
-      protected
 
       def valid_formula? formula
         return true if !formula

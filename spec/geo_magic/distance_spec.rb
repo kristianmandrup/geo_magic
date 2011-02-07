@@ -10,7 +10,13 @@ describe GeoMagic::Distance do
   end
   
   it "calculates distance using array args - using algorithm haversine" do
-    dist = GeoMagic::Distance.distance [@long1, @lat1], [@long2, @lat2]    
+    dist = GeoMagic::Distance.calculate [@long1, @lat1], [@long2, @lat2]    
+    puts dist    
+  end
+
+  it "calculates distance using array args - using algorithm haversine" do
+    dist = GeoMagic::Distance.calculate @long1, @lat1, @long2, @lat2
+    km_dist = dist[:km]
     puts dist    
   end
 end
