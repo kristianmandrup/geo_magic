@@ -9,6 +9,10 @@ module GeoMagic
         @environment = env
       end
 
+      def configured?
+        configured
+      end
+
       def get_service services
         case services
         when String, Symbol
@@ -35,6 +39,10 @@ module GeoMagic
           self.class.send(:include, ServiceAdapter)
         end
       end
+      
+      protected
+
+      attr_accessor :configured
     end
   end
 end

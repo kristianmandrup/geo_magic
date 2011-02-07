@@ -1,10 +1,12 @@
 require 'geo_magic/point/class_methods'
 require 'geo_magic/point/conversion'
+require 'geo_magic/point/random'
 
 module GeoMagic
   class Point
     extend ClassMethods
     extend Conversion
+    extend Random
 
     attr_accessor :latitude, :longitude
     
@@ -14,15 +16,16 @@ module GeoMagic
     end
 
     # factory method
-    def create_from *args
-      @latitude, @longitude = case args.size 
+    def self.create_from *args
+      latitude, longitude = case args.size 
       when 1
-        args.first.to_point
+        args.first.extend(GeoMagic::Point::Conversion).to_point
       when 2
-         args.to_points
+         args.extend(GeoMagic::Point::Conversion).to_points
       else
         raise "Bad argument to create a point from: #{args}"
       end
+      new latitude, longitude
     end    
         
     def to_point_hash mode= :long
@@ -35,7 +38,8 @@ module GeoMagic
     end 
 
     def to_location
-      GeoMagic.geocoder.instance.reverse_geocode latitude, longitude
+      raise "You need to configure the GeoMagic geocoder, see README for instructions" if !GeoMagic.geo_coder.configured?
+      GeoMagic.geo_coder.instance.reverse_geocode latitude, longitude        
     end
     
     def to_s   

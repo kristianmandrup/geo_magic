@@ -1,5 +1,5 @@
 module GeoMagic
-  class MapPoint
+  class Point
     module Random
       def move_random distance
         conversion = distance.unit.radians_ratio

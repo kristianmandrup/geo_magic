@@ -9,7 +9,7 @@ require 'geo_magic/geocode/graticule/multi_adapter'
 module GeoMagic 
   class GeoCodeError < StandardError; end;
   
-  class << self    
+  class << self      
     def geo_coder options = {:type => :geocoder, :service => :google}
       service_name = options[:service_name] || :google
       type  = options[:type] || :geocoder
