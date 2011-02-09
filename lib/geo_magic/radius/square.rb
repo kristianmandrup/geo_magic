@@ -8,17 +8,14 @@ module GeoMagic
       @distance = distance
     end  
 
-    def multiply arg
-      case arg
-      when Fixnum
-        self.distance.multiply arg
-        self
-      when Hash
-        radius_from_factors [factor(arg, [:lat, :latitude]), factor(arg, [:long, :longitude])]
-      else
-        raise ArgumentError, "Argument must be a Fixnum or a Hash specifying factor to multiply latitude and/or longitude with" if !arg.kind_of? 
-      end                        
+    def multiply! arg
+      self.distance.multiply arg
+      self
     end
+
+    def multiply arg
+      self.clone.multiply! arg
+    end    
 
     # Factory
     def random_point_within 

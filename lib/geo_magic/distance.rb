@@ -6,7 +6,7 @@ require 'geo_magic/distance/formula'
 
 module GeoMagic 
   class Distance
-    attr_reader :distance, :unit
+    attr_accessor :distance, :unit
 
     extend ClassMethods
 
@@ -19,8 +19,7 @@ module GeoMagic
     end
 
     # select all points within radius
-    def select_within points, center
-      
+    def select_within points, center      
     end
 
     # reject all points within radius
@@ -28,13 +27,13 @@ module GeoMagic
       
     end
 
+    def * arg
+      multiply arg
+    end
+
     def multiply arg
-      case arg
-      when Fixnum
-        self.distance *= arg
-      else
-        raise ArgumentError, "Argument must be a Fixnum" if !arg.kind_of? 
-      end                        
+      check_numeric! arg
+      self.distance *= arg
     end
 
     def radius center, type = :circular
@@ -77,6 +76,10 @@ module GeoMagic
     end    
 
     protected
+
+    def check_numeric! arg
+      raise ArgumentError, "Argument must be Numeric" if !arg.is_a? Numeric
+    end
   
     # delta between the two points in miles
     GeoMagic::Distance.units.each do |unit|

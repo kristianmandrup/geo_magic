@@ -9,8 +9,13 @@ module GeoMagic
     end  
 
     def multiply arg       
-      raise ArgumentError, "Argument must be a Fixnum" if !arg.kind_of? Fixnum
-      self.distance *= arg      
+      self.clone.multiply! arg
+    end
+
+    def multiply! arg       
+      check_numeric! arg
+      self.distance.distance *= arg
+      self
     end
 
     def to_s
@@ -50,6 +55,6 @@ module GeoMagic
         res << point
         res
       end
-    end
+    end    
   end
 end

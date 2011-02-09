@@ -20,14 +20,26 @@ module GeoMagic
     end
 
     def double
-      raise "Must be implemented by subclass. Should simply double the radius of the shape"
+      multiply 2
     end
 
-    def halve
-      raise "Must be implemented by subclass. Should simply halve the radius of the shape"
+    def double!
+      multiply! 2
+    end
+
+    def halve!
+      multiply 0.5      
+    end
+
+    def halve!
+      multiply! 0.5      
     end
 
     def multiply arg
+      raise "Must be implemented by subclass. Should multiply size by a given factor"
+    end
+
+    def multiply! arg
       raise "Must be implemented by subclass. Should multiply size by a given factor"
     end
 
@@ -64,6 +76,10 @@ module GeoMagic
     end
 
     protected
+    
+    def check_numeric! arg
+      raise ArgumentError, "Argument must be Numeric" if !arg.is_a? Numeric
+    end
 
     include RandomRadiant
   end

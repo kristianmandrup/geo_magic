@@ -10,8 +10,19 @@ module GeoMagic
     end  
 
     def multiply arg       
-      self.vector_distance.multiply arg
-      self
+      self.clone.multiply! arg
+    end
+
+    def multiply! arg       
+      case arg
+      when Numeric
+        self.vector_distance.multiply arg
+        self
+      when Hash
+        self.radius_from_factors [factor(arg, [:lat, :latitude]), factor(arg, [:long, :longitude])]
+      else
+        raise ArgumentError, "Argument must be Numeric or a Hash specifying factor to multiply latitude and/or longitude with"
+      end
     end
 
     def create_from *args
@@ -55,6 +66,6 @@ module GeoMagic
         res << point
         res
       end      
-    end
+    end        
   end
 end
