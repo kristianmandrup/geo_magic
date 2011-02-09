@@ -1,3 +1,5 @@
+require 'sugar-high/kind_of'
+
 module GeoMagic
   class Distance
     class Vector 
@@ -5,7 +7,7 @@ module GeoMagic
 
       # should be Distance objects!
       def initialize lat_distance, long_distance
-        raise ArgumentError "lat and long distance arguments must be instances of GeoMagic::Distance" if ![long_distance, lat_distance].kinds_of? GeoMagic::Distance
+        raise ArgumentError, "lat and long distance arguments must be instances of GeoMagic::Distance, was: #{lat_distance} #{long_distance}" if ![long_distance, lat_distance].only_kinds_of? GeoMagic::Distance
         @lat_distance   = lat_distance
         @long_distance  = long_distance
       end      
@@ -15,7 +17,7 @@ module GeoMagic
         when Fixnum
           [arg, arg]
         when Hash
-          [factor(arg, [:lat, :latitude]), factor(arg, [:long, :longitude])]
+          [factor(arg, lat_symbols), factor(arg, long_symbols)]
         else
           raise ArgumentError, "Argument must be a Fixnum or a Hash specifying factor to multiply latitude and/or longitude with" if !arg.kind_of? 
         end                        
@@ -37,17 +39,51 @@ module GeoMagic
         GeoMagic::Radius.send :"create_rectangular", center, self
       end
 
-      # should create distance vector from 2 points
-      def self.create_from *args
-        # extract points
-        # calc distance
-      end
-
       def to_s
         "distances: (lat: #{lat_distance}, long: #{long_distance})"
       end
       
       protected
+
+      include GeoMagic::GeoSymbols
+
+      class << self
+
+        include GeoMagic::GeoSymbols
+
+        # should create distance vector from 2 points
+        def create_from *args
+          case args.size
+          when 1
+            arg = args.first
+            return arg if arg.kind_of? self.class
+            new *extract_from_hash(arg)
+          when 2
+            new *args
+          else
+            raise ArgumentError, "Too many arguments! #{args}"
+          end
+        end
+
+        protected
+
+        def extract_from_hash hash
+          raise ArgumentError, "single argument must be a hash" if !hash.kind_of? Hash    
+          [lat_dist(hash), long_dist(hash)]
+        end
+
+        def lat_dist hash
+          sym = lat_symbols.select {|s| hash[s].kind_of? GeoMagic::Distance }.first
+          raise ArgumentError, "latitude could not be extracted from hash" if !sym
+          hash[sym]
+        end
+
+        def long_dist hash
+          sym = long_symbols.select {|s| hash[s].kind_of? GeoMagic::Distance }.first
+          raise ArgumentError, "longitude could not be extracted from hash" if !sym
+          hash[sym]
+        end
+      end
       
       def factor hash, symbols
         s = symbols.select {|s| hash[s].kind_of? Fixnum }

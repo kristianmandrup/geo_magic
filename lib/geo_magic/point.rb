@@ -1,6 +1,7 @@
 require 'geo_magic/point/class_methods'
 require 'geo_magic/point/conversion'
 require 'geo_magic/point/random'
+require 'geo_magic/point/geo_symbols'
 
 module GeoMagic
   class Point
@@ -58,14 +59,6 @@ module GeoMagic
     
     def to_s   
       "(lat: #{latitude}, long: #{longitude})"
-    end    
-    
-    protected
-    
-    def extract_from_hash hash
-      raise ArgumentError, "single argument must be a hash" if !hash.kind_of? Hash    
-      
     end
-    
   end
 end

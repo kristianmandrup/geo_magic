@@ -7,7 +7,7 @@ describe GeoMagic::RectangularRadius do
     end
 
     let(:vector_distance) do
-      {:lat => 1.2, :long => 0.4}
+      {:lat => 1.2.km, :long => 0.4.km}
     end
     
     it "should create a new rectangular radius" do
