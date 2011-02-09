@@ -6,13 +6,22 @@ module GeoMagic
   class Point
     extend ClassMethods
     extend Conversion
-    extend Random
+    include Random
+    include GeoMagic::PointConverter
 
     attr_accessor :latitude, :longitude
     
-    def initialize latitude, longitude
-      @latitude = latitude
-      @longitude = longitude
+    def initialize *args
+      points = case args.size
+      when 2
+        args
+      when 1        
+        to_point args
+      else
+        raise ArgumentError, "Must be array of numbers or Hash of latitude, longitude"
+      end                
+      @latitude = points.first
+      @longitude = points.last
     end
 
     # factory method
@@ -27,6 +36,11 @@ module GeoMagic
       end
       new latitude, longitude
     end    
+
+    def move dlat, dlong
+      @latitude   += dlat
+      @longitude  += dlong
+    end
         
     def to_point_hash mode= :long
       case mode
@@ -45,5 +59,13 @@ module GeoMagic
     def to_s   
       "(lat: #{latitude}, long: #{longitude})"
     end    
+    
+    protected
+    
+    def extract_from_hash hash
+      raise ArgumentError, "single argument must be a hash" if !hash.kind_of? Hash    
+      
+    end
+    
   end
 end

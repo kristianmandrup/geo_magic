@@ -4,8 +4,21 @@ module GeoMagic
     
     def initialize center, distance
       super center
+      raise ArgumentError, "#{self.class} distance must be a Distance" if !distance.kind_of? GeoMagic::Distance            
       @distance = distance
     end  
+
+    def multiply arg
+      case arg
+      when Fixnum
+        self.distance.multiply arg
+        self
+      when Hash
+        radius_from_factors [factor(arg, [:lat, :latitude]), factor(arg, [:long, :longitude])]
+      else
+        raise ArgumentError, "Argument must be a Fixnum or a Hash specifying factor to multiply latitude and/or longitude with" if !arg.kind_of? 
+      end                        
+    end
 
     # Factory
     def random_point_within 
@@ -34,6 +47,22 @@ module GeoMagic
         res << point
         res
       end      
+    end 
+
+    def to_s
+      "#{super}, #{distance}"
+    end
+    
+    protected
+    
+    def radius_from_factors factors
+      if factors.all_same?
+        self.distance.multiply factors.first
+        self
+      else
+        rectangle = GeoMagic::RectangularRadius.create_from self
+        rectangle.multiply arg
+      end
     end
   end
 end

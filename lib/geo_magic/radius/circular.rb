@@ -4,8 +4,18 @@ module GeoMagic
     
     def initialize center, distance
       super center
+      raise ArgumentError, "#{self.class} distance must be a Distance" if !distance.kind_of? GeoMagic::Distance      
       @distance = distance
     end  
+
+    def multiply arg       
+      raise ArgumentError, "Argument must be a Fixnum" if !arg.kind_of? Fixnum
+      self.distance *= arg      
+    end
+
+    def to_s
+      "#{super}, #{distance}"
+    end
 
     # Factory
     def random_point_within

@@ -1,26 +1,35 @@
+require 'geo_magic/util/normalizer'
+
 module GeoMagic
   class Point
-    module Random
+    module Random      
       def move_random distance
-        conversion = distance.unit.radians_ratio
-
-        max_radius_rad = dist.distance
-        range = (max_radius_rad * normalize).to_i          
-
-        dlong = (get_random_radiant(range) / normalize)
-        dlat  = (get_random_radiant(range) / normalize)
-  
-        @latitude   += dlat
-        @longitude  += dlong
+        move random_deltas(range)  
       end
 
       def create_random_at dist_lat, dist_long
-        dlat  = (get_random_radiant(range) / normalize) * conversion
-  
-        GeoMagic::Point.new dist.latitude + dlat, dist.longitude + dlong      
+        r       = range(distance)
+        dlat    = random_delta(r) * conversion
+        dlong   = random_delta(r) * conversion
+        GeoMagic::Point.new latitude + dlat, longitude + dlong
       end
       
       protected
+
+      include GeoMagic::Normalizer
+
+      # TODO: Should normalize according to unit, normalize should thus be part of distance or unit!? 
+      def range distance
+        normalize(distance.in_radians)
+      end
+
+      def random_deltas range
+        [random_delta(range), random_delta(range)]
+      end
+
+      def random_delta range
+        denormalize(get_random_radiant(range))
+      end
 
       def get_random_radiant(range)
         GeoMagic::Radius.get_random_radiant(range)

@@ -5,8 +5,12 @@ module GeoMagic
     def rad
       {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}                     
     end    
-    
-    def within_distance dist_obj, options = {:precision => :lowest}
+
+    def within_radius radius_obj, options = {:precision => :lowest}
+    end
+
+    # todo: should make radius from distance!
+    def within_distance dist_obj, options = {:precision => :lowest}      
       calc_method = get_proc(options[:precision] || :normal)
       from_loc = get_location get_dist_obj(options[:from])
 

@@ -8,6 +8,10 @@ module GeoMagic
         @p1 = p1
       end
 
+      def create_at center, vector
+        new center, center.move(vector)
+      end
+
       def length type = nil
         case type
         when nil

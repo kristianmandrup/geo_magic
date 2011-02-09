@@ -21,6 +21,7 @@ module GeoMagic
         when nil
           nil
         when Array
+          return self.first.extend(GeoMagic::Point::Conversion).to_point if self.first.kind_of? Hash
           self.map(&:to_f)
         else
           return [self.lat, self.lng] if self.respond_to? :lat
@@ -39,12 +40,12 @@ module GeoMagic
 
     def to_point v
       return v if v.kind_of? Fixnum
-      v.extend(Mongoid::Geo::Point).to_point
+      v.extend(GeoMagic::Point::Conversion).to_point
     end
 
     def to_points v
       return v if v.kind_of? Fixnum 
-      v.extend(Mongoid::Geo::Point).to_points
+      v.extend(GeoMagic::Point::Conversion).to_points
     end
   end
 end

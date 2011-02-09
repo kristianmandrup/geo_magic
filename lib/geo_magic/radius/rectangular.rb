@@ -1,11 +1,17 @@
 module GeoMagic
-  class RectangularRadius
-    attr_accessor :center, :vector
+  class RectangularRadius < Radius
+    attr_accessor :center, :vector_distance
 
-    def initialize center, vector
+    def initialize center, vector_distance
       super center
-      @vector = vector
+      raise ArgumentError, "#{self.class} radius distance must be a Distance::Vector with lat and long distance" if !vector_distance.kind_of? GeoMagic::Distance::Vector
+      @vector_distance = vector_distance
     end  
+
+    def multiply arg       
+      self.vector_distance.multiply arg
+      self
+    end
 
     def create_from *args
       case args.size 
@@ -21,12 +27,16 @@ module GeoMagic
       end
     end
 
+    def to_s
+      "#{super}, #{vector_distance}"
+    end
+
     def lat_distance
-      vector.lat_distance
+      vector_distance.lat_distance
     end
       
     def long_distance
-      vector.long_distance
+      vector_distance.long_distance
     end
 
     # Factory
