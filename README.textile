@@ -18,8 +18,12 @@ You can either include the complete library like this:
 
 <pre>require 'geo_magic'</pre>
 
-
 Or require only the functionality you need (see usage examples below)
+
+h2. Status update (Feb 9)
+
+I am currently in the process of refactoring and improving this library in a major way in the refactor branch. You are most welcome to help out!
+The new version coming soon will be truly awesome and magical with a very powerful DSL... stay tuned!
 
 h2. IP and location data
 
