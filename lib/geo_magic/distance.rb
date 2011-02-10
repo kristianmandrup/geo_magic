@@ -31,6 +31,11 @@ module GeoMagic
       multiply arg
     end
 
+    def / arg
+      multiply(1/arg)
+    end
+
+
     def multiply arg
       check_numeric! arg
       self.distance *= arg

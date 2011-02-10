@@ -1,22 +1,23 @@
 module GeoMagic
   class RectangularRadius < Radius
-    attr_accessor :center, :vector_distance
+    attr_accessor :vector_distance
 
-    def initialize center, vector_distance
-      super center
+    def initialize center_point, vector_distance
+      super center_point
       vector_distance = GeoMagic::Distance::Vector.create_from vector_distance
       raise ArgumentError, "#{self.class} radius distance must be a Distance::Vector with lat and long distance" if !vector_distance.kind_of? GeoMagic::Distance::Vector
       @vector_distance = vector_distance
     end  
 
-    def multiply arg       
-      self.clone.multiply! arg
+    def multiply arg
+      rect = GeoMagic::RectangularRadius.new center, vector_distance.clone
+      rect.multiply! arg      
     end
 
-    def multiply! arg       
+    def multiply! arg
       case arg
       when Numeric
-        self.vector_distance.multiply arg
+        self.vector_distance.multiply! arg
         self
       when Hash
         self.radius_from_factors [factor(arg, [:lat, :latitude]), factor(arg, [:long, :longitude])]
@@ -66,6 +67,23 @@ module GeoMagic
         res << point
         res
       end      
-    end        
+    end 
+    
+    protected
+
+    def factor hash, symbols
+      s = symbols.select {|s| hash[s].is_a? Numeric }
+      s.empty? ? 1 : hash[s]
+    end
+    
+    def radius_from_factors factors
+      if factors.all_same?
+        self.vector_distance.multiply! factors.first.clone
+        self
+      else
+        rectangle = GeoMagic::RectangularRadius.create_from self
+        rectangle.multiply! arg
+      end
+    end           
   end
 end

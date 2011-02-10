@@ -51,7 +51,6 @@ describe GeoMagic::CircularRadius do
       puts circle.inspect
     end
   end
-
   
   describe '#double' do
     let (:circle) do

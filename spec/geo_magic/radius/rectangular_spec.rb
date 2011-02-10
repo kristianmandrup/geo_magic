@@ -16,10 +16,10 @@ describe GeoMagic::RectangularRadius do
       rect = GeoMagic::RectangularRadius.new center, vector_distance
       puts rect.inspect
     end
-
+  
     it "should create a new rectangular radius that is square" do
       rect = GeoMagic::RectangularRadius.new center, distance
-      rect.vector_distance.lat_distance.should == rect.vector_distance.long_distance
+      rect.vector_distance.lat_distance.distance.should == rect.vector_distance.long_distance.distance
       puts rect.inspect
     end
   end
@@ -30,15 +30,15 @@ describe GeoMagic::RectangularRadius do
     end
     
     it "should double the radius distance" do
-      old_lat = rect.vector_distance.lat_distance
-      old_long = rect.vector_distance.long_distance
+      old_lat = rect.vector_distance.lat_distance.clone
+      old_long = rect.vector_distance.long_distance.clone
       rect.double! 
       rect.vector_distance.lat_distance.should == old_lat * 2
       rect.vector_distance.long_distance.should == old_long * 2
       puts rect.inspect
     end
   end
-
+  
   describe '#double' do
     let (:rect) do
       GeoMagic::RectangularRadius.new center, vector_distance
@@ -51,17 +51,33 @@ describe GeoMagic::RectangularRadius do
     end
   end
   
+  describe '#multiply!' do
+    let (:rect) do
+      GeoMagic::RectangularRadius.new center, distance
+    end
+    
+    it "should halve the radius distance" do
+      old_lat = rect.vector_distance.lat_distance.clone
+      old_long = rect.vector_distance.long_distance.clone 
+      rect.multiply!(3) 
+      rect.vector_distance.lat_distance.should == old_lat * 3.0
+      rect.vector_distance.long_distance.should == old_long * 3.0
+  
+      puts rect.inspect
+    end
+  end
+     
   describe '#halve!' do
     let (:rect) do
       GeoMagic::RectangularRadius.new center, distance
     end
     
     it "should halve the radius distance" do
-      old_lat = rect.vector_distance.lat_distance
-      old_long = rect.vector_distance.long_distance
+      old_lat = rect.vector_distance.lat_distance.clone
+      old_long = rect.vector_distance.long_distance.clone 
       rect.halve! 
-      rect.vector_distance.lat_distance.should == old_lat / 2
-      rect.vector_distance.long_distance.should == old_long / 2
+      rect.vector_distance.lat_distance.should == old_lat / 2.0
+      rect.vector_distance.long_distance.should == old_long / 2.0
 
       puts rect.inspect
     end

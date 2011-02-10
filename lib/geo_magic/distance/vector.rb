@@ -16,7 +16,16 @@ module GeoMagic
         multiply arg
       end
 
+      def / arg
+        multiply(1/arg)
+      end
+
       def multiply arg
+        vect_dist = new lat_distance.clone, long_distance.clone
+        vect_dist.multiply! arg
+      end
+
+      def multiply! arg
         factors = case arg
         when Numeric
           [arg, arg]
@@ -24,9 +33,10 @@ module GeoMagic
           [factor(arg, lat_symbols), factor(arg, long_symbols)]
         else
           raise ArgumentError, "Argument must be a Fixnum or a Hash specifying factor to multiply latitude and/or longitude with, was #{arg.class}"
-        end                        
+        end      
         multiply_lat factors.first
         multiply_long factors.last
+        self
       end
 
       def multiply_lat arg
@@ -35,7 +45,7 @@ module GeoMagic
       end
 
       def multiply_long arg
-        check_numeric! arg
+        check_numeric! arg  
         self.long_distance *= arg
       end
 
@@ -78,9 +88,9 @@ module GeoMagic
           when GeoMagic::Distance::Vector
             arg
           when GeoMagic::Distance
-            new arg, arg
+            new arg.clone, arg.clone
           else  
-            new *extract_from_hash(arg)
+            new *extract_from_hash(arg.clone)
           end
         end
 

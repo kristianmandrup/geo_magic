@@ -4,7 +4,8 @@ require 'geo_magic/radius/random_radiant'
 module GeoMagic
   class Radius < Point
     def initialize arg
-      super
+      raise ArgumentError, "Radius takes an argument with enough info to create a center point" if !arg
+      super arg
     end  
 
     def self.types
@@ -22,6 +23,13 @@ module GeoMagic
     def center
       GeoMagic::Point.new latitude, longitude
     end
+
+    def center= arg
+      point = arg.extend(GeoMagic::Point::Conversion).to_point
+      latitude = point.first
+      longitude = point.last
+    end
+
 
     def double
       multiply 2
@@ -69,14 +77,6 @@ module GeoMagic
     # random_points(3).within
     def random_points number
       RandomPoints.new self, number
-    end
-
-    def center
-      @center ||= Point.create_from self
-    end
-
-    def center= point
-      @center = Point.create_from point
     end
 
     protected

@@ -14,12 +14,13 @@ module GeoMagic
     end
 
     def multiply arg
-      self.clone.multiply! arg
+      square = GeoMagic::SquareRadius.new center, distance.clone
+      square.multiply! arg
     end    
 
     # Factory
     def random_point_within 
-      conversion = GeoMagic::Distance.radians_ratio(distance.unit)      
+      conversion = GeoMagic::Distance.radians_ratio(distance.unit)
 
       max_radius_rad = dist.distance
       range = (max_radius_rad * normalize).to_i          
@@ -48,18 +49,6 @@ module GeoMagic
 
     def to_s
       "#{super}, #{distance}"
-    end
-    
-    protected
-    
-    def radius_from_factors factors
-      if factors.all_same?
-        self.distance.multiply factors.first
-        self
-      else
-        rectangle = GeoMagic::RectangularRadius.create_from self
-        rectangle.multiply arg
-      end
-    end
+    end    
   end
 end
