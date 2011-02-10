@@ -14,6 +14,8 @@ module GeoMagic
 
       def to_point
         case self
+        when GeoMagic::Point
+          return [self.latitude, self.longitude]
         when Hash
           return [self[:lat], (self[:lng] || self[:long])] if self[:lat]
           return [self[:latitude], self[:longitude]] if self[:latitude]

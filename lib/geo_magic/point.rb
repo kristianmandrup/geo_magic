@@ -17,7 +17,7 @@ module GeoMagic
       when 2
         args
       when 1        
-        to_point args
+        to_point args.first
       else
         raise ArgumentError, "Must be array of numbers or Hash of latitude, longitude"
       end                

@@ -19,6 +19,10 @@ module GeoMagic
       }
     end
 
+    def center
+      GeoMagic::Point.new latitude, longitude
+    end
+
     def double
       multiply 2
     end
@@ -27,7 +31,7 @@ module GeoMagic
       multiply! 2
     end
 
-    def halve!
+    def halve
       multiply 0.5      
     end
 

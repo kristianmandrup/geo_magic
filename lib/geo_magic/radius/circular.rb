@@ -9,7 +9,8 @@ module GeoMagic
     end  
 
     def multiply arg       
-      self.clone.multiply! arg
+      circle = GeoMagic::CircularRadius.new center, distance.clone
+      circle.multiply! arg
     end
 
     def multiply! arg       
