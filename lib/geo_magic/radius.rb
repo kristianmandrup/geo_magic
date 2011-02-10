@@ -30,7 +30,6 @@ module GeoMagic
       longitude = point.last
     end
 
-
     def double
       multiply 2
     end

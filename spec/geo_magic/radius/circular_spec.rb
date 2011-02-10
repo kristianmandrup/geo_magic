@@ -47,7 +47,7 @@ describe GeoMagic::CircularRadius do
     
     it "should multiply the radius distance and return new circle" do
       other_circle = circle.multiply(5) 
-      other_circle.distance.should_not == circle.distance
+      other_circle.radius.should_not == circle.distance
       puts circle.inspect
     end
   end

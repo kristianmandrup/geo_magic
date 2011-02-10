@@ -19,6 +19,9 @@ module GeoMagic
       self
     end
 
+    alias_method :radius, :distance
+    alias_method :radius=, :distance=
+
     def to_s
       "#{super}, #{distance}"
     end

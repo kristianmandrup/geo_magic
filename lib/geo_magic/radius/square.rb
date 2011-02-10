@@ -8,6 +8,9 @@ module GeoMagic
       @distance = distance
     end  
 
+    alias_method :radius, :distance
+    alias_method :radius=, :distance=
+
     def multiply! arg
       self.distance.multiply arg
       self
