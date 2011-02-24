@@ -9,6 +9,16 @@ module GeoMagic
     def within_radius radius_obj, options = {:precision => :lowest}
     end
 
+    # return Points Center
+    def near center
+      GeoMagic::PointsCenter.new center, self
+    end
+
+    # return PointsDistance
+    def within distance
+      GeoMagic::PointsDistance.new distance, self
+    end
+
     # todo: should make radius from distance!
     def within_distance dist_obj, options = {:precision => :lowest}      
       calc_method = get_proc(options[:precision] || :normal)

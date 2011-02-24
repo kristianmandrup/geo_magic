@@ -30,6 +30,10 @@ module GeoMagic
       shape.contains? point
     end
 
+    def within distance
+      GeoMagic::PointDistance.new distance, self
+    end
+
     # factory method
     def self.create_from *args
       latitude, longitude = case args.size 

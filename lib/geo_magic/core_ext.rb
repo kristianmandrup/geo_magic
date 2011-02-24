@@ -58,12 +58,24 @@ end
 
 class Array
   def is_point?
+    return true if self.first.kind_of? GeoMagic::Point
     (0..1).all? {|n| self[n].is_a?(Numeric) }
   end
 
   def to_point
     raise "For an array to be converted to a point, it must consist of two numbers, was: #{self}" if !is_point?
-    GeoMagic::Point.new self[0], self[1]
+    point_args = if self.first.kind_of? GeoMagic::Point
+      self.first
+    else
+       self[0..1]
+    end
+    GeoMagic::Point.new point_args
+  end
+
+  def to_points
+    res = []
+    each_slice(2) {|point| res << point.to_point }
+    res
   end
   
   def are_points?
@@ -72,11 +84,7 @@ class Array
     end
     true
   end
-  
-  def as_map_points
-    self.extend GeoMagic::MapPoints
-  end
-  
+    
   def sort_by_distance
     self.sort_by { |item| get_dist_obj(item).dist }
   end  

@@ -12,21 +12,21 @@ describe GeoMagic::Distance do
   subject { 5.km }
 
   describe 'Select subset of points within distance' do
-    describe '#select_within' 
+    describe '#select_within' do 
       subject.select_within @points, @center
     end
 
-    describe '#select_all #near' 
+    describe '#select_all #near' do 
       subject.select_all(@points).near(@center)
     end
   end
 
   describe 'Reject subset of points within distance' do
-    describe '#reject_within' 
+    describe '#reject_within' do
       subject.reject_near @points, @center
     end
 
-    describe '#reject_all #within' 
+    describe '#reject_all #within' do 
       subject.reject_all(@points).near(@center)
     end
   end

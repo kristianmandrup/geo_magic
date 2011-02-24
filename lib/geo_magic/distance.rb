@@ -3,6 +3,7 @@ require 'geo_magic/distance/class_methods'
 require 'geo_magic/distance/unit'
 require 'geo_magic/distance/vector'
 require 'geo_magic/distance/formula'
+require 'geo_magic/distance/point_distance'
 require 'geo_magic/distance/points_distance'
 
 module GeoMagic 
@@ -65,9 +66,13 @@ module GeoMagic
     end
 
     GeoMagic::Distance.units.each do |unit|
-      class_eval %{
+      class_eval %{        
         def #{unit}
           self[:#{unit}]
+        end
+        
+        def in_#{unit}
+          GeoMagic::Distance::Unit.new(unit, distance).in_#{unit}
         end
       }
     end
