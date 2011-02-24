@@ -1,5 +1,7 @@
 require 'sugar-high/kind_of'
 
+# This can be used to indicate a rectangle, with a latitude and logitude distance from the center in both directions to span out the rectangle.
+
 module GeoMagic
   class Distance
     class Vector 

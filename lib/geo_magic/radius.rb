@@ -1,4 +1,5 @@
 require 'geo_magic/point'
+require 'geo_magic/radius/within_radius'
 require 'geo_magic/radius/random_radiant'
 
 module GeoMagic

@@ -8,7 +8,7 @@ module GeoMagic
         distance *points
       end
     
-      def self.distance( lat1, lon1, lat2, lon2) 
+      def self.distance lat1, lon1, lat2, lon2
         from_longitude  = lon1.to_radians
         from_latitude   = lat1.to_radians
         to_longitude    = lon2.to_radians

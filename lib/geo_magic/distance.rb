@@ -3,6 +3,7 @@ require 'geo_magic/distance/class_methods'
 require 'geo_magic/distance/unit'
 require 'geo_magic/distance/vector'
 require 'geo_magic/distance/formula'
+require 'geo_magic/distance/points_distance'
 
 module GeoMagic 
   class Distance
@@ -19,7 +20,10 @@ module GeoMagic
     end
 
     # select all points within radius
-    def select_within points, center      
+    def select_within points, center
+      points.select do |p|
+        point.within? center
+      end
     end
 
     # reject all points within radius

@@ -5,34 +5,28 @@ describe GeoMagic::Distance::Vector do
     @long_dist  = -0.3.km
     @lat_dist   = 0.05.km
   end
-  
-  it "should create a distance vector" do
-    dist_vector = GeoMagic::Distance::Vector.new @long_dist, @lat_dist
-    dist_vector.long_distance.should_not be_nil
-    dist_vector.lat_distance.should_not be_nil
-    puts dist_vector.inspect    
-  end
-  
-  describe '#multiply!' do
-    let (:dvector) do 
-      GeoMagic::Distance::Vector.new @long_dist, @lat_dist
-    end
-    
-    it "should multiply the radius distance" do
-      dvector.multiply!(5) 
-      puts dvector.inspect
-    end
-  end
 
-  describe '#multiply' do
-    let (:dvector) do 
-      GeoMagic::Distance::Vector.new @long_dist, @lat_dist
-    end
+  context 'Distance vector' do
+    subject { GeoMagic::Distance::Vector.new @long_dist, @lat_dist }
+  
+    its(:long_distance) { should > 0 }
+    its(:lat_distance)  { should > 0 }
     
-    it "should multiply the radius distance and return new circle" do
-      dvector.multiply!(0.5) 
-      puts dvector.inspect
+    describe '#multiply' do    
+      it "should multiply the radius distance and return new circle" do
+        old_dist = subject.long_distance
+        dvec = subject.multiply(0.5) 
+        subject.long_distance.should == old_dist        
+        dvec.long_distance.should < subject.long_distance
+      end
+    end
+
+    describe '#multiply!' do
+      it "should multiply the radius distance" do
+        old_dist = subject.long_distance
+        subject.multiply!(5) 
+        subject.long_distance.should > old_dist
+      end
     end
   end
-  
 end

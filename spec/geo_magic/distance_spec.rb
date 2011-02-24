@@ -1,30 +1,33 @@
 require 'spec_helper'
 
 describe GeoMagic::Distance do
-  before do
-    @long1 = -104.88544
-    @lat1 = 39.06546
-
-    @long2 = -104.80
-    @lat2 = @lat1
-  end
-  
-  it "calculates distance using array args - using algorithm haversine" do
-    dist = GeoMagic::Distance.calculate [@long1, @lat1], [@long2, @lat2]    
-    puts dist    
+  before do  
+    a = [45.1, 11].to_point
+    b = [45.1, 11.1].to_point
+    c = [48.1, 12.1].to_point    
+    @center = [45, 11].to_point
+    @points = [a, b, c]
   end
 
-  it "calculates distance using array args - using algorithm haversine" do
-    dist = GeoMagic::Distance.calculate @long1, @lat1, @long2, @lat2
-    km_dist = dist[:km]
-    puts dist
-    puts "km: #{km_dist}"
+  subject { 5.km }
+
+  describe 'Select subset of points within distance' do
+    describe '#select_within' 
+      subject.select_within @points, @center
+    end
+
+    describe '#select_all #near' 
+      subject.select_all(@points).near(@center)
+    end
   end
 
-  it "calculates distance using array args - using algorithm haversine" do  
-    dist = GeoMagic::Distance.calculate {:long => @long1, :lat => @lat1}, {:long => @long2, :lat => @lat2}
-    km_dist = dist[:km]
-    puts dist
-    puts "km: #{km_dist}"
+  describe 'Reject subset of points within distance' do
+    describe '#reject_within' 
+      subject.reject_near @points, @center
+    end
+
+    describe '#reject_all #within' 
+      subject.reject_all(@points).near(@center)
+    end
   end
 end

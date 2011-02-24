@@ -28,6 +28,12 @@ module GeoMagic
       def vector_distance
         GeoMagic::Distance::Vector.new length(:latitude), length(:longitude)
       end        
+
+      def distance options = { :unit => :meters }
+        dist = Math.sqrt((delta_longitude(vector) + delta_latitude).abs)
+        unit_dist = ::GeoMagic::Distance.new(dist).send unit
+        unit_dist.number        
+      end
         
       def [] key
         case key
@@ -38,7 +44,17 @@ module GeoMagic
         else
           raise "Vector key must be either 0/1 or :p0/:p1"
         end
-      end      
+      end
+      
+      protected
+    
+      def delta_longitude
+        (p0.longitude - p1.longitude)**2
+      end
+
+      def delta_latitude vector
+        (p0.latitude - p1.latitude)**2
+      end            
     end
   end
 end

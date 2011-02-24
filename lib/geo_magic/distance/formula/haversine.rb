@@ -42,7 +42,7 @@ module GeoMagic
 
       # given two lat/lon points, compute the distance between the two points using the haversine formula
       #  the result will be a Hash of distances which are key'd by 'mi','km','ft', and 'm'
-      def self.distance( lat1, lon1, lat2, lon2) 
+      def self.distance lat1, lon1, lat2, lon2
         dlon = lon2 - lon1
         dlat = lat2 - lat1
 

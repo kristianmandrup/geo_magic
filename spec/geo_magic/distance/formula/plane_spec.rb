@@ -1,17 +1,32 @@
 require 'spec_helper'
-require 'geo_magic'
 
-describe "GeoMagic Calculate" do
-  before do
-    @long1 = -104.88544
-    @lat1 = 39.06546
 
-    @long2 = -104.80
-    @lat2 = @lat1
-  end
+describe GeoMagic::Distance::Plane do
+
+  subject { GeoMagic::Distance::Plane }
   
-  it "calculates distance using array args" do
-    dist = GeoMagic::Calculate.plane_distance [@long1, @lat1], [@long2, @lat2]    
-    puts dist    
+  describe '#point_distance' do    
+    before do
+      @a = [45, 10].to_point
+      @b = [42, 11].to_point
+    end
+    
+    it 'should calculate the distance between points A and B' do
+      dist = subject.point_distance @a, @b
+      puts dist
+    end
+  end
+
+  describe '#distance' do    
+    before do
+      @a = [45, 10]
+      @b = [42, 11]
+    end
+    
+    it 'should calculate the distance between points A and B' do
+      dist = subject.distance [@a, @b].flatten
+      puts dist
+    end
   end
 end
+

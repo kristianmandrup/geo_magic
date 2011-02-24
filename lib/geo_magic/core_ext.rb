@@ -57,6 +57,15 @@ end
 
 
 class Array
+  def is_point?
+    (0..1).all? {|n| self[n].is_a?(Numeric) }
+  end
+
+  def to_point
+    raise "For an array to be converted to a point, it must consist of two numbers, was: #{self}" if !is_point?
+    GeoMagic::Point.new self[0], self[1]
+  end
+  
   def are_points?
     each do |p|
       return false if !p.kind_of?(GeoMagic::Point)  

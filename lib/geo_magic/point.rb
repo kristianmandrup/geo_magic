@@ -25,6 +25,11 @@ module GeoMagic
       @longitude = points.last
     end
 
+    def within? shape
+      raise ArgumentError, "Argument must be a GeoMagic::Shape, was #{shape}" if !shape.kind_of? GeoMagic::Shape
+      shape.contains? point
+    end
+
     # factory method
     def self.create_from *args
       latitude, longitude = case args.size 
