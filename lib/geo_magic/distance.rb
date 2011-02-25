@@ -21,15 +21,21 @@ module GeoMagic
     end
 
     # select all points within radius
-    def select_within points, center
-      points.select do |p|
-        point.within? center
-      end
+    def select_all points
+      GeoMagic::PointsDistance.new self, points, :select
     end
 
     # reject all points within radius
-    def reject_within points, center
-      
+    def reject_all points
+      GeoMagic::PointsDistance.new self, points, :reject
+    end
+
+    [:<, :<=, :>, :>=, :==].each do |op|
+      class_eval %{
+        def #{op} dist_unit
+          in_meters #{op} dist_unit.in_meters
+        end
+      }
     end
 
     def * arg

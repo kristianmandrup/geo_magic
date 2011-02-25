@@ -1,3 +1,5 @@
+require 'geo_magic/distance'
+
 module GeoMagic 
   class Distance
     class Unit
@@ -9,29 +11,33 @@ module GeoMagic
       end
 
       def meters_map
-        {:miles => 0.0062,
+        {:miles => 0.00062,
          :feet => 32.8,
-         :km => 0.01,
+         :km => 0.001,
          :meters => 1 
         }
       end
 
-      def in_meters        
-        meters_map[name.to_sym] * number
+      def in_meters
+        number / meters_map[name.to_sym]
       end
 
       def to_meters!
         self.number = meters_map[name] * number
       end
 
-      [:miles, :feet, :km].each do |unit|
+      def self.units 
+        [:miles, :km, :feet, :meters]
+      end
+
+      (units - [:meters]).each do |unit|
         class_eval %{
           def in_#{unit}
-            to_meters * meters_map[#{unit}]
+            in_meters * meters_map[:#{unit}]
           end          
 
           def to_#{unit}!
-            self.number = to_meters * meters_map[#{unit}]
+            self.number = in_meters * meters_map[#{unit}]
             self.name = :#{unit}
           end          
         }
