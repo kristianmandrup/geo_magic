@@ -11,17 +11,25 @@ module GeoMagic
       def distance *args
         points = extract_points *args
         options = extract_options *args
+        puts "args: #{args}"
+        puts "options: #{options}"
         unit    = options[:unit]
-        dist    = ::GeoMagic::Distance.send(:distance, *points).send unit
-        dist.number
+        dist    = ::GeoMagic::Distance.send(:distance, *points)
+        puts "unit: #{unit}"
+        unit ? dist.send(unit) : dist
       end
 
       protected
 
-      def extract_options *args
-        options = last_arg_value({:unit => :meters}, args)
-        {:unit => options} if options.kind_of?(Symbol)
+      def extract_options *args           
+        options = last_arg_value(default_options, args) || default_options
+        options.kind_of?(Symbol) ? {:unit => options} : options
       end        
+
+      # {:unit => :meters}
+      def default_options 
+        {}
+      end
       
       def extract_points *args
         points = case args.size

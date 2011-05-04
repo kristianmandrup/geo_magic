@@ -29,10 +29,14 @@ module GeoMagic
       GeoMagic::Distance::Vector.new length(:latitude), length(:longitude)
     end        
 
-    def distance options = { :unit => :meters }
+    def distance unit = :meters
+      puts "p0: #{p0}"
+      puts "p1: #{p1}"
       dist = Math.sqrt((delta_longitude + delta_latitude).abs)
-      unit = options[:unit] || :meters
-      ::GeoMagic::Distance.new(dist).send unit
+      puts "dist: #{dist}"
+      dist = ::GeoMagic::Distance.new(dist, :radians)
+      puts "dist rad: #{dist}"      
+      dist.to_meters
     end
       
     def [] key

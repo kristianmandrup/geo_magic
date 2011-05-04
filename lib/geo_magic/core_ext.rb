@@ -2,12 +2,16 @@ require 'geo_magic/distance'
 
 module GeoMagic
   module UnitExt
-    ::GeoMagic::Distance::Unit.units.each do |unit|
+    ::GeoMagic::Distance.units.each do |unit|
       class_eval %{
         def #{unit}
           GeoMagic::Distance.new(self, :#{unit})
         end
       }
+    end
+    
+    def thousand
+      self * 1000
     end
   end
 end

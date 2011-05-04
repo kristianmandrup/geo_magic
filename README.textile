@@ -18,8 +18,11 @@ You can either include the complete library like this:
 
 <pre>require 'geo_magic'</pre>
 
-
 Or require only the functionality you need (see usage examples below)
+
+h2. Notes
+
+A nice distance calculation/conversion "here":https://gist.github.com/769944
 
 h2. IP and location data
 

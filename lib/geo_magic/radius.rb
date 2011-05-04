@@ -15,8 +15,8 @@ module GeoMagic
 
     types.each do |name|
       class_eval %{
-        def create_#{name} center, distance
-          #{GeoMagic::name.to_s.classify}Radius.new center, distance
+        def self.create_#{name} center, distance
+          GeoMagic::#{name.to_s.classify}Radius.new center, distance
         end
       }
     end

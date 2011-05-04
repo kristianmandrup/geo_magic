@@ -44,6 +44,10 @@ module GeoMagic
       "#{super}, #{vector_distance}"
     end
 
+    def distance axis = :lat
+      send :"#{axis}_distance"
+    end
+
     def lat_distance
       vector_distance.lat_distance
     end

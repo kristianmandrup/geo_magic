@@ -12,7 +12,7 @@ module GeoMagic
       end    
 
       def units 
-        [:miles, :km, :feet, :meters]
+        [:miles, :km, :feet, :meters, :radians]
       end
 
       def radians_ratio unit
