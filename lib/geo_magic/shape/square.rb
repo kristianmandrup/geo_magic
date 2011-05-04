@@ -1,3 +1,5 @@
+require 'geo_magic/shape'
+
 module GeoMagic
   class Square < Rectangle
     attr_reader :distance

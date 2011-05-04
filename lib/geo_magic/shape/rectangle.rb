@@ -1,3 +1,5 @@
+require 'geo_magic/shape'
+
 module GeoMagic
   class Rectangle < Shape
     attr_accessor :point_a, :point_b
