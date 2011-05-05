@@ -57,15 +57,28 @@ module GeoMagic
       new latitude, longitude
     end    
 
-    def move dlat, dlong
+    def move! dlat, dlong
       @latitude   += dlat
       @longitude  += dlong
+      self
+    end
+
+    def move dlat, dlong
+      cloned = self.dup
+      cloned.latitude   += dlat
+      cloned.longitude  += dlong
+      cloned
     end
 
     def move_vector vector
+      raise ArgumentError, "Argument must be a GeoMagic::Vector, was #{vector}" if !vector.kind_of? GeoMagic::Vector
       move vector.lat_distance, vector.long_distance
     end
 
+    def move_vector! vector
+      raise ArgumentError, "Argument must be a GeoMagic::Vector, was #{vector}" if !vector.kind_of? GeoMagic::Vector
+      move! vector.lat_distance, vector.long_distance
+    end
         
     def to_point_hash mode= :long
       case mode

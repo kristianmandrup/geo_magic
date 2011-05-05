@@ -16,12 +16,41 @@ describe GeoMagic::Vector do
       end
     end
 
+    describe 'class methods' do
+      describe '#create_at' do
+        it "should create a vector from a point and another vector" do
+          v2 = GeoMagic::Vector.create_at @a, @vector
+          v2.should be_a(GeoMagic::Vector)
+        end
+      end
+    end
+
     describe '#distance' do
       it "is has a distance" do
         @vector.distance.should be_a(GeoMagic::Distance)
         @vector.distance.in_meters.should > 500
       end
     end
+
+    describe '#lat_factor' do
+      it "is has a lat_factor of 2" do
+        @vector.lat_factor.should >= 2
+      end
+    end    
+
+    describe '#length' do
+      describe ':latitude' do
+        it "is has a latitude length of ..." do
+          @vector.length(:latitude).in_km.should >= 0.5
+        end
+      end
+
+      describe ':longitude' do
+        it "is has a longitude length of ..." do
+          @vector.length(:longitude).in_km.should >= 0.5
+        end
+      end
+    end    
 
     describe '#vector_distance' do
       it "is has a vector_distance" do

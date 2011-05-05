@@ -8,8 +8,8 @@ module GeoMagic
       @p1 = p1
     end
 
-    def create_at center, vector
-      new center, center.move(vector)
+    def self.create_at center, vector
+      new center, center.move_vector(vector)
     end
 
     def length type = nil
@@ -26,6 +26,14 @@ module GeoMagic
       d = GeoMagic::Distance.new rad_dist, :radians
       d.lat_factor = p0.middle_point(p1).latitude_factor if type == :latitude 
       d
+    end
+
+    def lat_distance
+      length(:latitude).in_radians
+    end
+
+    def long_distance
+      length(:longitude).in_radians
     end
 
     def vector_distance
