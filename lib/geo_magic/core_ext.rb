@@ -60,7 +60,15 @@ class String
 end  
 
 
-class Array
+class Array 
+  def sum 
+    inject( nil ) { |sum,x| sum ? sum+x : x }
+  end
+
+  def mean 
+    sum.to_f / size.to_f
+  end  
+  
   def is_point?
     return true if self.first.kind_of? GeoMagic::Point
     (0..1).all? {|n| self[n].is_a?(Numeric) }

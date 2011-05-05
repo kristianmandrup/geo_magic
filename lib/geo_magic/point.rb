@@ -25,6 +25,16 @@ module GeoMagic
       @longitude = points.last
     end
 
+    def latitude_factor
+      90 / (90 - latitude)
+    end
+
+    def middle_point p1
+      mp_lat = [latitude, p1.latitude].mean
+      mp_lng = [longitude, p1.longitude].mean
+      GeoMagic::Point.new mp_lat, mp_lng
+    end
+
     def within? shape
       raise ArgumentError, "Argument must be a GeoMagic::Shape, was #{shape}" if !shape.kind_of? GeoMagic::Shape
       shape.contains? point

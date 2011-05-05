@@ -3,7 +3,7 @@ module GeoMagic
     attr_accessor :p0, :p1
     
     def initialize p0, p1
-      raise "Vector must be initialized with a start end ending point, was: #{p0}, #{p1}" if ![p0, p1].are_points?
+      raise ArgumentError, "Vector must be initialized with a start end ending point, was: #{p0}, #{p1}" if ![p0, p1].are_points?
       @p0 = p0
       @p1 = p1
     end
@@ -13,7 +13,7 @@ module GeoMagic
     end
 
     def length type = nil
-      case type
+      rad_dist = case type
       when nil
         GeoMagic::Distance.distance(p0, p1)
       when :latitude
@@ -23,19 +23,18 @@ module GeoMagic
       else
         raise ArgumentError, "Bad argument for calculating lenght, valid args are: nil, :latitude or :longitude"
       end
+      d = GeoMagic::Distance.new rad_dist, :radians
+      d.lat_factor = p0.middle_point(p1).latitude_factor if type == :latitude 
+      d
     end
 
     def vector_distance
-      GeoMagic::Distance::Vector.new length(:latitude), length(:longitude)
+      GeoMagic::Distance::Vector.new length(:latitude), length(:longitude), :lat_factor => p0.middle_point(p1).latitude_factor
     end        
 
     def distance unit = :meters
-      puts "p0: #{p0}"
-      puts "p1: #{p1}"
       dist = Math.sqrt((delta_longitude + delta_latitude).abs)
-      puts "dist: #{dist}"
       dist = ::GeoMagic::Distance.new(dist, :radians)
-      puts "dist rad: #{dist}"      
       dist.to_meters
     end
       

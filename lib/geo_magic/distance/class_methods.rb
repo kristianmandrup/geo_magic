@@ -4,15 +4,27 @@ module GeoMagic
       # radius of the great circle in miles
       # radius in kilometers...some algorithms use 6367
       def earth_radius
-        {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}                     
+        {:km => 6371, :miles => 3956, :feet => 20895592, :meters => 6371000}
       end
 
+      def radian_radius
+        {:km => 6371/180, :miles => 3956/180, :feet => 20895592/180, :meters => 6371000/180}
+      end
+                
       def radians_per_degree
         0.017453293  #  PI/180
       end    
 
       def units 
         [:miles, :km, :feet, :meters, :radians]
+      end
+
+      def valid_radius_type? type
+        valid_radius_types.include? type
+      end
+
+      def valid_radius_types
+        [:circular, :rectangular, :square]
       end
 
       def radians_ratio unit

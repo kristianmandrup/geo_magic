@@ -5,13 +5,14 @@ require 'sugar-high/kind_of'
 module GeoMagic
   class Distance
     class Vector 
-      attr_accessor :lat_distance, :long_distance
+      attr_accessor :lat_distance, :long_distance, :lat_factor
 
       # should be Distance objects!
-      def initialize lat_distance, long_distance
+      def initialize lat_distance, long_distance, options = {}
         raise ArgumentError, "lat and long distance arguments must be instances of GeoMagic::Distance, was: #{lat_distance} #{long_distance}" if ![long_distance, lat_distance].only_kinds_of? GeoMagic::Distance
         @lat_distance   = lat_distance
         @long_distance  = long_distance
+        @lat_factor = options[:lat_factor] || 1
       end      
 
       def * arg
