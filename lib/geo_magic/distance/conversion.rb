@@ -9,13 +9,15 @@ module GeoMagic
       (::GeoMagic::Distance.units - [:meters]).each do |unit|
         class_eval %{
           def in_#{unit}
-            dist = (unit == :radians) ? in_radians : distance
-            convert_to_meters(dist) * meters_map[:#{unit}]
+            dist = (unit == :radians) ? in_radians : distance            
+            un = GeoMagic::Unit.key :#{unit}
+            convert_to_meters(dist) * GeoMagic::Unit.meters_map[un]
           end
 
           def to_#{unit}!
-            self.distance = in_meters * meters_map[:#{unit}]
-            self.unit = :#{unit}
+            un = GeoMagic::Unit.key :#{unit}
+            self.distance = in_meters * GeoMagic::Unit.meters_map[un]
+            self.unit = un
             self
           end          
         } 
@@ -35,20 +37,26 @@ module GeoMagic
         self
       end
 
-      ::GeoMagic::Distance.units.each do |unit|
-        class_eval %{        
+      ::GeoMagic::Distance.all_units.each do |unit|
+        class_eval %{
           def #{unit}
-            as_#{unit}
-          end        
-
+            un = GeoMagic::Unit.key :#{unit}
+            send(:"as_\#{un}")
+          end
+        }
+      end
+      
+      ::GeoMagic::Distance.units.each do |unit|
+        class_eval %{
           def as_#{unit}
             in_#{unit}
           end
 
           def to_#{unit}
-            cloned = self.dup               
-            cloned.distance = in_meters * meters_map[:#{unit}]
-            cloned.unit = :#{unit}
+            cloned = self.dup
+            un = GeoMagic::Unit.key :#{unit}
+            cloned.distance = in_meters * GeoMagic::Unit.meters_map[un]
+            cloned.unit = un
             cloned
           end        
         }
@@ -80,7 +88,8 @@ module GeoMagic
       GeoMagic::Distance.units.each do |unit|
         class_eval %{
           def delta_#{unit}
-            GeoMagic::Distance.earth_radius[:#{unit}]
+            un = GeoMagic::Unit.key :#{unit}            
+            GeoMagic::Distance.earth_radius[un]
           end
         }
       end
@@ -89,38 +98,6 @@ module GeoMagic
 
       def earth_factor u = nil
         (GeoMagic::Distance.earth_radius[u ||= unit] / 180) * lat_factor
-      end
-
-      # from mongoid-geo, as suggested by niedhui :)
-      def radian_multiplier
-        { 
-          :feet => 364491.8,
-          :ft => 364491.8,
-          :m => 111170,
-          :meter => 111170,
-          :meters => 111170,
-          :km => 111.17,
-          :kms => 111.17,
-          :mil => 69.407,
-          :mile => 69.407,
-          :miles => 69.407
-        }
-      end
-
-      def meters_map
-        {
-         :mil => 69.407,
-         :mile => 0.00062137,
-         :miles => 0.00062137,
-         :ft => 3.2808,
-         :feet => 3.2808,
-         :km => 0.001,
-         :kms => 0.001,
-         :kilometers => 0.001,
-         :m => 1,
-         :meter => 1,
-         :meters => 1
-        }
       end
     end
   end

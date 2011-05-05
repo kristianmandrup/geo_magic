@@ -2,7 +2,7 @@ require 'geo_magic/distance'
 
 module GeoMagic
   module UnitExt
-    ::GeoMagic::Distance.units.each do |unit|
+    ::GeoMagic::Distance.all_units.each do |unit|
       class_eval %{
         def #{unit}
           GeoMagic::Distance.new(self, :#{unit})

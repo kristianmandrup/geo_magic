@@ -4,6 +4,7 @@ require 'geo_magic/distance/vector'
 require 'geo_magic/distance/formula'
 require 'geo_magic/distance/point_distance'
 require 'geo_magic/distance/points_distance'
+require 'geo_magic/distance/unit'
 
 module GeoMagic 
   class Distance
@@ -27,15 +28,18 @@ module GeoMagic
     def initialize distance, unit = :radians, options = {}
       check_numeric! distance
       @distance = distance
+      unit = GeoMagic::Unit.key unit
       raise ArgumentError, "Invalid unit: #{unit} - must be one of #{GeoMagic::Distance.units}" if !GeoMagic::Distance.units.include?(unit.to_sym)
-      @unit = unit.to_sym
+      @unit = unit 
       @lat_factor = options[:lat_factor] || 1
     end
 
     [:<, :<=, :>, :>=, :==].each do |op|
       class_eval %{
         def #{op} dist_unit
-          in_meters #{op} dist_unit.in_meters
+          raise ArgumentError, "Must be compared with either a GeoMagic::Distance or a Fixnum (number)" if !dist_unit.any_kind_of?(Fixnum, GeoMagic::Distance)
+          dist = dist_unit.kind_of?(Fixnum) ? dist_unit : dist_unit.in_meters           
+          in_meters #{op} dist
         end
       }
     end
@@ -72,17 +76,7 @@ module GeoMagic
 
     def check_numeric! arg
       raise ArgumentError, "Argument must be Numeric" if !arg.is_a? Numeric
-    end
-  
-    def precision
-      {
-        :feet => 0,
-        :meters => 2,
-        :km => 4,
-        :miles => 4,
-        :radians => 4
-      }
-    end    
+    end  
   end
 end
 

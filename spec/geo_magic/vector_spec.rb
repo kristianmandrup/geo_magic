@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RAD_KM_LAT45 = GeoMagic::Distance.radian_radius[:km] * 2
+RAD_KM_LAT45 = GeoMagic::Distance.radian_radius[:kms] * 2
 
 describe GeoMagic::Vector do
   context 'an almost 1 radian vector' do
@@ -41,13 +41,13 @@ describe GeoMagic::Vector do
     describe '#length' do
       describe ':latitude' do
         it "is has a latitude length of ..." do
-          @vector.length(:latitude).in_km.should >= 0.5
+          @vector.length(:latitude).in_kms.should >= 0.5
         end
       end
 
       describe ':longitude' do
         it "is has a longitude length of ..." do
-          @vector.length(:longitude).in_km.should >= 0.5
+          @vector.length(:longitude).in_kms.should >= 0.5
         end
       end
     end    
