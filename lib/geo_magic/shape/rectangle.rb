@@ -2,9 +2,10 @@ require 'geo_magic/shape'
 
 module GeoMagic
   class Rectangle < Shape
-    attr_accessor :point_a, :point_b
+    attr_accessor :point_b
 
     def initialize point_a, point_b
+      arg_check!(point_a, point_b)
       @point_a = point_a
       @point_b = point_b      
     end
@@ -101,6 +102,12 @@ module GeoMagic
 
     def inside_bottom_right? point
       bottom_right_point.latitude > point.latitude && bottom_right_point.longitude > point.longitude
+    end
+    
+    private
+
+    def arg_check! p1, p2
+      raise ArgumentError, "Rectangle must be created from two Points or a Point and a Vector" if !([p1, p2].only_kinds_of?(GeoMagic::Point) || (p1.kind_of?(GeoMagic::Point) && p2.kind_of?(GeoMagic::Vector))
     end
   end
 end
