@@ -16,10 +16,6 @@ module GeoMagic
       GeoMagic::Radius::Rectangular.create_from self
     end
 
-    # is point within the square
-    def within? point
-    end    
-
     def vector
       Vector.new(point_a, point_b)
     end
@@ -64,10 +60,13 @@ module GeoMagic
     def self.create_from_coords lat1, long1, lat2, long2
       self.new GeoMagic::Point.new(lat1, long1), GeoMagic::Point.new(lat2, long2)
     end 
-    
+
+    # is point contained within the rectangle
     def overlaps? point
       inside_top_left?(point) && inside_bottom_right?(point)
     end
+
+    alias_method :contains?, :overlaps?
 
     def to_s mode = :normal
       return "#{lower_left} - #{upper_right}" if mode == :mongoid

@@ -2,7 +2,7 @@ require 'geo_magic/shape'
 
 module GeoMagic
   class Circle < Shape
-    attr_reader :point, :distance
+    attr_reader :distance
 
     def initialize point, distance
       @point_a = point
