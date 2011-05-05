@@ -3,7 +3,13 @@ require 'spec_helper'
 describe GeoMagic::Rectangle do
   context 'a 5.km circle' do
     before :each do
-      @rect = GeoMagic::Rectangle.new @center, 5.km.from(@center, :NW).expand(10.km, :west)
+      @up_left    = [1, 1].to_point
+      @up_right   = [3, 1].to_point
+      @low_right  = [3, 3].to_point      
+      @low_left   = [1, 3].to_point      
+            
+      @rect = GeoMagic::Rectangle.new @up_left, @low_right
+      @radius = GeoMagic::Radius::Rectangular.create_from @rect      
     end
 
     describe 'Class' do
@@ -13,8 +19,7 @@ describe GeoMagic::Rectangle do
     end
 
     describe '#create_within' do
-      it "creates a new rectangle within the radius of the rectangle" do
-        radius = GeoMagic::Radius::Rectangular.create_from @rect
+      it "creates a new rectangle within the radius of the rectangle" do        
         @rect.create_within @radius
       end
     end
@@ -76,5 +81,12 @@ describe GeoMagic::Rectangle do
         @rect.lower_right.should == @low_right
       end
     end    
+    
+    # describe 'cool dsl' do
+    #   it "should reset point_b and all calculated attributes" do
+    #     @rect = GeoMagic::Rectangle.new @low_left, 5.km.from(@low_left, :NW)
+    #     @rect.expand(10.km, :west)      
+    #   end        
+    # end
   end
 end
