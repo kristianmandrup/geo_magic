@@ -91,6 +91,22 @@ module GeoMagic
         (GeoMagic::Distance.earth_radius[u ||= unit] / 180) * lat_factor
       end
 
+      # from mongoid-geo, as suggested by niedhui :)
+      def radian_multiplier
+        { 
+          :feet => 364491.8,
+          :ft => 364491.8,
+          :m => 111170,
+          :meter => 111170,
+          :meters => 111170,
+          :km => 111.17,
+          :kms => 111.17,
+          :mil => 69.407,
+          :mile => 69.407,
+          :miles => 69.407
+        }
+      end
+
       def meters_map
         {
          :miles => 0.00062,
