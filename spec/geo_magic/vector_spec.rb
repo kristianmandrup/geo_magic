@@ -16,6 +16,13 @@ describe GeoMagic::Vector do
       end
     end
 
+    describe '#distance' do
+      it "is has a distance" do
+        @vector.distance.should be_a(GeoMagic::Distance)
+        @vector.distance.in_meters.should > 500
+      end
+    end
+
     describe '#vector_distance' do
       it "is has a vector_distance" do
         @vector.vector_distance.should be_a(GeoMagic::Distance::Vector)
@@ -24,6 +31,12 @@ describe GeoMagic::Vector do
       it "is has a latitude distance < #{RAD_KM_LAT45}" do
         lat_dist = @vector.vector_distance.lat_distance.km
         lat_dist.should < RAD_KM_LAT45
+      end
+
+      it "is has a longitude distance < 15" do
+        long_dist = @vector.vector_distance.long_distance.km
+        # puts long_dist
+        long_dist.should < 15
       end
     end   
   end

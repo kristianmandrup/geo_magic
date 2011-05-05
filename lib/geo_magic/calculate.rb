@@ -11,11 +11,8 @@ module GeoMagic
       def distance *args
         points = extract_points *args
         options = extract_options *args
-        puts "args: #{args}"
-        puts "options: #{options}"
         unit    = options[:unit]
         dist    = ::GeoMagic::Distance.send(:distance, *points)
-        puts "unit: #{unit}"
         unit ? dist.send(unit) : dist
       end
 

@@ -61,6 +61,11 @@ module GeoMagic
       @latitude   += dlat
       @longitude  += dlong
     end
+
+    def move_vector vector
+      move vector.lat_distance, vector.long_distance
+    end
+
         
     def to_point_hash mode= :long
       case mode

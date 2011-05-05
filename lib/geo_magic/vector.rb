@@ -29,15 +29,26 @@ module GeoMagic
     end
 
     def vector_distance
-      GeoMagic::Distance::Vector.new length(:latitude), length(:longitude), :lat_factor => p0.middle_point(p1).latitude_factor
+      GeoMagic::Distance::Vector.new length(:latitude), length(:longitude), :lat_factor => lat_factor
     end        
 
-    def distance unit = :meters
-      dist = Math.sqrt((delta_longitude + delta_latitude).abs)
-      dist = ::GeoMagic::Distance.new(dist, :radians)
-      dist.to_meters
+    def lat_factor
+      p0.middle_point(p1).latitude_factor
     end
-      
+
+    # distance between points p0 and p1 that define the vector
+
+    def distance unit = :radians
+      dist = ::GeoMagic::Distance.calculate p0, p1
+      unit != :radians ? dist[unit] : dist
+    end
+    
+    def distance_from center, unit = :meters
+      point = center.move delta_latitude, delta_longitude
+      dist = ::GeoMagic::Distance.calculate center, point
+      unit != :radians ? dist[unit] : dist
+    end
+
     def [] key
       case key
       when 0, :p0
@@ -50,6 +61,10 @@ module GeoMagic
     end
     
     protected
+
+    def connection_length 
+      Math.sqrt((delta_longitude + delta_latitude).abs)
+    end
   
     def delta_longitude
       (p0.longitude - p1.longitude)**2

@@ -9,6 +9,9 @@ module GeoMagic
   class Distance
     attr_accessor :distance, :unit, :lat_factor
 
+    # The lat factor has been introduced as an experimental 'hack' in order for distance calculations for points far from the equator to result in more accurate numbers
+    # when calculating and doing unit convertions. Should a similar attribute be introduced for longitude? 
+
     extend ClassMethods
 
     # select all points within radius
