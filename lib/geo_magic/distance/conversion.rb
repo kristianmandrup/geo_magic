@@ -109,10 +109,17 @@ module GeoMagic
 
       def meters_map
         {
-         :miles => 0.00062,
-         :feet => 3.28,
+         :mil => 69.407,
+         :mile => 0.00062137,
+         :miles => 0.00062137,
+         :ft => 3.2808,
+         :feet => 3.2808,
          :km => 0.001,
-         :meters => 1 
+         :kms => 0.001,
+         :kilometers => 0.001,
+         :m => 1,
+         :meter => 1,
+         :meters => 1
         }
       end
     end
