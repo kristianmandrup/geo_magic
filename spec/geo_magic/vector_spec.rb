@@ -54,7 +54,7 @@ describe GeoMagic::Vector do
 
     describe '#vector_distance' do
       it "is has a vector_distance" do
-        @vector.vector_distance.should be_a(GeoMagic::Distance::Vector)
+        @vector.vector_distance.should be_a(GeoMagic::DistanceVector)
       end
 
       it "is has a latitude distance < #{RAD_KM_LAT45}" do

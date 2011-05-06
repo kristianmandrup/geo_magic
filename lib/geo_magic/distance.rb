@@ -1,6 +1,6 @@
 require 'geo_magic/calculate'
 require 'geo_magic/distance/class_methods'
-require 'geo_magic/distance/vector'
+require 'geo_magic/vector/distance_vector'
 require 'geo_magic/distance/formula'
 require 'geo_magic/distance/point_distance'
 require 'geo_magic/distance/points_distance'
@@ -43,7 +43,15 @@ module GeoMagic
         end
       }
     end
-    
+
+    # from(@low_left, :NW)
+    def from point, direction
+      raise ArgumentError, "Invalid direction: #{direction}" if !valid_directions.include?(direction)
+      raise ArgumentError, "First argument must be a GeoMagic::Point, was: #{point}" if !point.kind_of?(GeoMagic::Point)
+      vector = GeoMagic::Vector.in_direction(direction, self)
+      point.move_vector(vector)
+    end
+          
     def number
       distance.round_to(precision[unit])
     end

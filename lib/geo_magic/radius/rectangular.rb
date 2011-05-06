@@ -4,8 +4,8 @@ module GeoMagic
 
     def initialize center_point, vector_distance
       super center_point
-      vector_distance = GeoMagic::Distance::Vector.create_from vector_distance
-      raise ArgumentError, "#{self.class} radius distance must be a Distance::Vector with lat and long distance" if !vector_distance.kind_of? GeoMagic::Distance::Vector
+      vector_distance = GeoMagic::DistanceVector.create_from vector_distance
+      raise ArgumentError, "#{self.class} radius distance must be a GeoMagic::DistanceVector with lat and long distance" if !vector_distance.kind_of? GeoMagic::DistanceVector
       @vector_distance = vector_distance
     end  
 

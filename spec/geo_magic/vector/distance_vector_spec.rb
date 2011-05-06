@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe GeoMagic::Distance::Vector do
+describe GeoMagic::DistanceVector do
   before do
     @long_dist  = -0.3.km
     @lat_dist   = 0.05.km
   end
 
   context 'Distance vector' do
-    subject { GeoMagic::Distance::Vector.new @long_dist, @lat_dist }
+    subject { GeoMagic::DistanceVector.new @long_dist, @lat_dist }
   
     its(:long_distance) { should > 0 }
     its(:lat_distance)  { should > 0 }
