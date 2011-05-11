@@ -1,0 +1,32 @@
+Alex Reiner (geocoder):
+
+The angle/distance stuff is complicated until the moment when it all suddenly makes sense. It's probably much simpler than you're thinking it is. You should probably take a look at the methods in my Calculations module: https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/calculations.rb 
+
+The first method calculates the distance of one degree of latitude (which is simpler than longitude). When you're translating radians (or degrees) to distance, think about it as moving along a Great Circle. This simplifies your mental picture to two dimensions, so you can use a simple circle circumference equations: 
+
+C = 2(pi)r 
+
+We know the radius of the Earth is around 6359 km so if we substitute that we get: 
+
+C = 2(pi)(6359) = 39955 
+
+which is pretty close to the Earth's circumference: 40075 km. 
+
+To calculate the distance spanned by one degree of latitude you just divide by the number of degrees in the whole circumference, which is 
+
+360: 39955 / 360 = 111 
+
+So to calculate the distance spanned by x degrees of latitude you just multiply by 111: 
+
+distance = 111x 
+
+For longitude it's slightly more complicated because the degrees range from 111 km at the equator to almost 0 km at the poles. 
+But really you just do the same thing you did for longitude and then multiply by COS(latitude). 
+
+So, for example, the distance of one degree of longitude along the 40 degree latitude line: 
+
+111 * COS(40) = 85 km 
+
+When you're not moving precisely along a line of latitude or longitude it's obviously more complicated, although really you can split the "diagonal" distance up into two vectors and calculate the length of the "hypotenuse." 
+
+Conceptually the key is to think of moving along a Great Circle. A certain number of degrees (or radians) around that circle will always be the same distance, but degrees of longitude are a different thing and you have to translate them into circle degrees before calculating distance.

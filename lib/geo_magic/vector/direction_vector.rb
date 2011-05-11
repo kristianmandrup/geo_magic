@@ -17,12 +17,21 @@ module GeoMagic
       def to_point_vector
         GeoMagic::PointVector.from_origin calc_point
       end
-    
+
+      ## move should use either + or << operator
       def apply_to arg
         raise ArgumentError, "Argument must be a GeoMagic::Point or a GeoMagic::PointVector" if !arg.any_kind_of?(GeoMagic::Vector, GeoMagic::PointVector)
         case arg
         when GeoMagic::Point
+          point = arg
+          v = calc_point
+          point.move(v.latitude, v.longitude)
         when GeoMagic::PointVector
+          pv = arg
+          v = calc_point
+          pv.latitude   = pv.latitude + v.longitude
+          pv.longitude  = pv.longitude + v.longitude
+          pv
         end
       end
     

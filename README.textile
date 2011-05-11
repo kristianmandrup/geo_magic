@@ -13,6 +13,9 @@ Some of the main features:
 * Calculate nearest points from a point
 * Find points within a radius (circle or square from center)
 * Calculate points within a bounding box
+* Apply vectors to points
+* Generate random points within a radius (for testing purposes)
+* Distance unit conversions (feet, meters, kms, miles)
 
 You can either include the complete library like this:
 

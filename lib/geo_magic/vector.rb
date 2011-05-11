@@ -9,6 +9,22 @@ module GeoMagic
         when GeoMagic::PointVector
         end
       end
+      
+      def << arg
+        apply_to arg        
+      end
+
+      def + arg
+        apply_to arg        
+      end
+      
+      def scale scalar
+        
+      end      
+
+      def * scalar
+        scale scalar        
+      end      
     end
   end
 end
