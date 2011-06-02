@@ -46,8 +46,8 @@ module GeoMagic
         q = rand(range) * PI_2
         r = Math.sqrt(rand(range))
 
-        dlong = denormalize (range * r) * Math.cos(q)
-        dlat  = denormalize (range * r) * Math.sin(q)
+        dlong = denormalize(range * r) * Math.cos(q)
+        dlat  = denormalize(range * r) * Math.sin(q)
 
         point = GeoMagic::Point.new @center.latitude + dlat, @center.longitude + dlong
         res << point
@@ -73,8 +73,8 @@ module GeoMagic
 
       q = rand(range) * PI_2
       r = Math.sqrt(rand(range))
-      dlong = denormalize (range * r) * Math.cos(q)
-      dlat = denormalize (range * r) * Math.sin(q)
+      dlong = denormalize(range * r) * Math.cos(q)
+      dlat = denormalize(range * r) * Math.sin(q)
       
       GeoMagic::Point.new @center.latitude + dlat, @center.longitude + dlong      
     end
