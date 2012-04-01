@@ -1,99 +1,18 @@
 h1. Geo Magic
 
-This little clever project was the result of me not being satisfied with existing Geo Location and Coding solutions out there to suit my needs.
+This little magic gem attempts to provide a nice DSL for performing Geo functionality.
+It levearegs some of my other geo- gems.
 
-Many of the projects did not return quality data (fx when requesting IP or location) and others were tightly bound to Active Record and SQL databases for calculations etc.
+*Geo Magic* should mainly be a DSL sugar-coating on top of these geo gems and integrate them all in a nice, convenient way under the cover. 
 
-This little gem should get you going...
+Main features:
 
-Some of the main features:
-
-* Get IP and location data using freegeoip.net
-* Geocoding and Reverse Geocoding using adapters (currently: Graticule and Geocode gems)
 * Find points within a radius (circle or square from center)
 * Generate random points within a radius (for testing purposes)
 
-This gem attempts to provide a nice DSL for performing Geo functions.
-
 h2. Update April 1 2012
 
-Major update under way. Trying to refactor gem to use the various geo gems that were previously extracted from this project. The 'remote' folder should also be extracted into a separate gem.
-GeoMagic should mainly be a DSL sugar-coating on top of these geo gems and integrate them all in a nice, convenient way under the cover. 
-
-h2. IP and location data
-
-Uses "freegeoip.net":http://freegeoip.net JSON API
-
-RSpec 2 examples of API usage  
-
-<pre>require 'geo_magic/remote'
-
-ip = GeoMagic::Remote.my_ip    
-puts "ip: #{ip.inspect}"    
-
-location = GeoMagic::Remote.location_of '74.200.247.59'
-puts "city: #{location['city']}"    
-</pre>
-
-h2. Geocoder adapters
-
-The following Geocode adapters are supported 
-
-* Geocoder 
-* Graticule
-* GraticuleMulti
-
-Single Geocode Geocoder:
-
-<pre>
-  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  geocoder = GeoMagic.geo_coder(:type => :geocoder)
-  # Set environment key to use or auto-detect if not explicitly passed as argument
-  geocoder.configure 'map_api_keys.yaml', :development
-  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
-  location.city
-</pre>
-
-Single Graticule Geocoder:
-
-<pre>
-  # Use Graticule geocoder
-  geocoder = GeoMagic.geo_coder(:type => graticule)
-  geocoder.configure 'map_api_keys.yaml', :development
-  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
-  location.city
-</pre>
-
-Multi Graticule Geocoder:
-
-<pre>
-  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  geocoder = GeoMagic.geo_coder(:type => graticule_multi)
-  ..
-</pre>
-
-Multi Graticule Customization:
-
-<pre>
-  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  geocoder = GeoMagic.geo_coder(:type => graticule_multi)
-  location = geocoder.instance(:timeout => 3) do |result|
-    [:address, :street].include?(result.precision)]
-  end
-  ..
-</pre>
-
-Geocoder in Rails:
-
-<pre>
-  geocoder = GeoMagic.geo_coder(:env => :rails).configure
-
-  location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
-  location.city.should == 'Munich'
-</pre>
-
-By default, the configuration expects a file in config/map_api_keys.yml containing the keys for each environment (see spec/fictures folder).
-This can be customized if needed: @geocoder.configure '../my_keys.yaml'@
+Refactoring in progress
 
 h3. Create random points in Radius
 

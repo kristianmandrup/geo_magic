@@ -1,7 +1,7 @@
 require 'geo_magic/util/normalizer'
 
 module Geo
-  class Point
+  class Points
     module Random      
       def move_random distance
         move random_deltas(range)  

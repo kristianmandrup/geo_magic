@@ -1,5 +1,5 @@
 module Geo
-  class Point
+  class Points
     class Center
       attr_accessor :distance, :center
 
