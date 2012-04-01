@@ -1,7 +1,5 @@
-require 'geo_magic/map_point'
-
-module GeoMagic
-  class Location < MapPoint
+module Geo
+  class Location < Point
     attr_accessor :ip
     attr_writer   :city, :region, :country
     
@@ -72,7 +70,7 @@ module GeoMagic
     end
 
     def map_point
-      @map_point ||= GeoMagic::Point.new latitude, longitude
+      @map_point ||= Geo::Point.new latitude, longitude
     end
 
     def city

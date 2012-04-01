@@ -12,6 +12,7 @@ module GeoMagic
 
     def configure path, env = :development 
       @config ||= ::YAML.load_file(path)[env.to_s]
+      send :configured, true      
       self
     end
 

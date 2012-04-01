@@ -3,9 +3,13 @@ require 'geo_magic'
 require 'helper/streets'
 
 describe "GeoMagic Geocoder" do
+  let(:config_file) do
+    File.expand_path('fixtures/map_api_keys.yaml', SPEC_DIR)
+  end
+  
   before do
     @geocoder = GeoMagic.geo_coder
-    @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+    @geocoder.configure config_file, :development
   end
   
   it "should geocode" do    
@@ -27,7 +31,7 @@ describe "GeoMagic Geocoder" do
 
   it "Graticule adapter" do
     @geocoder = GeoMagic.geo_coder :type => :graticule, :services => :google
-    @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+    @geocoder.configure config_file, :development
     location = @geocoder.instance.geocode "Pilotystrasse 11, munich, Germany"
     p location
     p location.city
@@ -35,7 +39,7 @@ describe "GeoMagic Geocoder" do
 
   it "Graticule Multi adapter" do
     @geocoder = GeoMagic.geo_coder :type => :graticule_multi, :services => :google
-    @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+    @geocoder.configure config_file, :development
     location = @geocoder.instance.geocode "Pilotystrasse 11, munich, Germany"
     p location
     p location.city
@@ -45,7 +49,7 @@ describe "GeoMagic Geocoder" do
   context 'Streets from munich' do
     before do
       @geocoder = GeoMagic.geo_coder
-      @geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+      @geocoder.configure config_file, :development
 
       puts "config: #{@geocoder.config}"
 

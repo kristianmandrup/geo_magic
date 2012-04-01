@@ -1,6 +1,7 @@
 h1. Geo Magic
 
 This little clever project was the result of me not being satisfied with existing Geo Location and Coding solutions out there to suit my needs.
+
 Many of the projects did not return quality data (fx when requesting IP or location) and others were tightly bound to Active Record and SQL databases for calculations etc.
 
 This little gem should get you going...
@@ -8,22 +9,12 @@ This little gem should get you going...
 Some of the main features:
 
 * Get IP and location data using freegeoip.net
-* Calculate distance between map points using various algorithms (haversine, spherical, vincenty, straight line)
 * Geocoding and Reverse Geocoding using adapters (currently: Graticule and Geocode gems)
-* Calculate nearest points from a point
 * Find points within a radius (circle or square from center)
-* Calculate points within a bounding box
+* Generate random points within a radius (for testing purposes)
 
-You can either include the complete library like this:
+This gem attempts to provide a nice DSL for performing Geo functions.
 
-<pre>require 'geo_magic'</pre>
-
-Or require only the functionality you need (see usage examples below)
-
-h2. Status update (Feb 9)
-
-I am currently in the process of refactoring and improving this library in a major way in the refactor branch. You are most welcome to help out!
-The new version coming soon will be truly awesome and magical with a very powerful DSL... stay tuned!
 
 h2. IP and location data
 
@@ -33,61 +24,18 @@ RSpec 2 examples of API usage
 
 <pre>require 'geo_magic/remote'
 
-it "should get the remote IP address" do
-  ip = GeoMagic::Remote.my_ip    
-  puts "ip: #{ip.inspect}"    
-end
+ip = GeoMagic::Remote.my_ip    
+puts "ip: #{ip.inspect}"    
 
-it "should get other location" do
-  location = GeoMagic::Remote.location_of '74.200.247.59'
-  puts "location: #{location['city']}"    
-end
-
-it "should get my location" do
-  location = GeoMagic::Remote.my_location
-  puts location
-  puts "location: #{location['city']}"    
-end  
-</pre>
-
-
-h2. Distance calculation
-
-RSpec 2 examples of API usage 
-
-<pre>require 'geo_magic/calculate'
-
-it "calculates distance using array args" do
-  dist = GeoMagic::Calculate.distance [@long1, @lat1], [@long2, @lat2]    
-  puts dist    
-end
-
-it "calculates distance using Point args" do
-  from_point = GeoMagic::Point.new @long1, @lat1    
-  to_point = GeoMagic::Point.new @long2, @lat2
-
-  puts "from: #{from_point}, to: #{to_point}"
-
-  dist = GeoMagic::Calculate.distance from_point, to_point
-  puts dist    
-end
-
-it "calculates distance using Hash args (short)" do
-  from_point = GeoMagic::Point.new(@long1, @lat1).to_hash :short
-  to_point = GeoMagic::Point.new(@long2, @lat2).to_hash :short
-
-  puts "from: #{from_point}, to: #{to_point}"
-
-  dist = GeoMagic::Calculate.distance from_point, to_point
-  puts dist    
-end  
+location = GeoMagic::Remote.location_of '74.200.247.59'
+puts "city: #{location['city']}"    
 </pre>
 
 h2. Geocoder adapters
 
 The following Geocode adapters are supported 
 
-* Geocode 
+* Geocoder 
 * Graticule
 * GraticuleMulti
 
@@ -95,8 +43,9 @@ Single Geocode Geocoder:
 
 <pre>
   # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
-  geocoder = GeoMagic.geo_coder(:type => :geocode)
-  geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  geocoder = GeoMagic.geo_coder(:type => :geocoder)
+  # Set environment key to use or auto-detect if not explicitly passed as argument
+  geocoder.configure 'map_api_keys.yaml', :development
   location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
   location.city
 </pre>
@@ -104,9 +53,9 @@ Single Geocode Geocoder:
 Single Graticule Geocoder:
 
 <pre>
-  # Use Graticule Multi geocoder, which tries multiple geocode services in succession!
+  # Use Graticule geocoder
   geocoder = GeoMagic.geo_coder(:type => graticule)
-  geocoder.configure File.expand_path('../fixtures/map_api_keys.yaml', File.dirname(__FILE__)), :development
+  geocoder.configure 'map_api_keys.yaml', :development
   location = geocoder.instance.geocode "Mullerstrasse 9, Munich"
   location.city
 </pre>
@@ -146,15 +95,14 @@ h3. Create random points in Radius
 
 From a given radius, you can create random points either in a square or circle radius. 
 
-* create_points_in_square 
-* create_points_in_circle
+* create_points_in(shape_type, number)
 
 Example use:
 
 <pre>
   radius = center_point.within(10.km)
-  square_points = radius.create_points_in_square 6
-  circle_points = radius.create_points_in_circle 4  
+  square_points = radius.create_points_in :square, 6
+  circle_points = radius.create_points_in :circle 4  
 </pre>
 
 
@@ -162,25 +110,25 @@ h3. Points within an area or distance
 
 Within distance:
 
-<pre>@points.as_map_points.within_distance 4.km, :from => @center_point</pre>
+<pre>@points.as_map_points.within(4.km).of(@center_point)</pre>
 
 The closest n points:
 
-<pre>@points.as_map_points.the_closest 4, :from => @center_point</pre>
+<pre>@points.as_map_points.the_closest(4).from(@center_point)</pre>
 
 Or using container objects (objects containing a location):
 
-@@people.as_map_points.the_closest 4, :from => @house@
+<pre>@people.as_map_points.the_closest(4).from(@house)</pre>
 
 Where @people is an array of Person and @house is an instance of House and where both House and Person has a #location, #to_point or #point method that returns an object
 with latitude and longitude methods that each return a float.
 
-Within bounding rectangle:
+Within bounding rectangle (see Geo::Shapes in 'geo_shapes' gem) :
 
 <pre>rectangle = GeoMagic::Rectangle.new(GeoMagic::Point.new(-115, 50), GeoMagic::Point.new(-100, 20))
 # or
 # rect = GeoMagic::Rectangle.create_from_coords lat1, long1, lat2, long2
-@points.as_map_points.within_rectangle rect, :from => @center_point
+@points.as_map_points.within_rectangle(rect).from(@center_point)
 </pre>
 
 h2. Meta magic
@@ -189,22 +137,16 @@ You can also include the functionality directly into any class like this
 
 <pre>
 class Map
-  include GeoMagic::Calculate
+  include Geo::Calculate
 end
 
 class MapCalc
   geo_magic :calc
 end
 
-it "calculates distance using array args" do
-  dist = Map.distance [@long1, @lat1], [@long2, @lat2]    
-  puts dist    
-end
+dist = Map.distance [@long1, @lat1], [@long2, @lat2]    
 
-it "calculates distance using array args" do
-  dist = MapCalc.distance [@long1, @lat1], [@long2, @lat2]    
-  puts dist    
-end  
+dist = MapCalc.distance [@long1, @lat1], [@long2, @lat2]    
 </pre>
 
 h2. Contributing to geo_magic
