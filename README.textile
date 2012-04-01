@@ -15,6 +15,10 @@ Some of the main features:
 
 This gem attempts to provide a nice DSL for performing Geo functions.
 
+h2. Update April 1 2012
+
+Major update under way. Trying to refactor gem to use the various geo gems that were previously extracted from this project. The 'remote' folder should also be extracted into a separate gem.
+GeoMagic should mainly be a DSL sugar-coating on top of these geo gems and integrate them all in a nice, convenient way under the cover. 
 
 h2. IP and location data
 
